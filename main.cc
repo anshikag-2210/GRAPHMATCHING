@@ -1,5 +1,8 @@
 #include "BipartiteGraph.h"
 #include "StableMarriage.h"
+#include "SEAPopularHRLQ.h"
+#include "LpApproxSMFQ.h"
+#include "Statistics.h"
 #include "Popular.h"
 #include "RHeuristicHRLQ.h"
 #include "HHeuristicHRLQ.h"
@@ -33,7 +36,12 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
     std::shared_ptr<BipartiteGraph> G = GraphReader(std::cin).read_graph();
     T alg(G, A_proposing);
     auto M = alg.compute_matching();
-    print_matching(G, M, std::cout);
+
+    //Statistics s;
+    //s.get_statistics(G, M);
+    //s.get_smfq_statistics(G, M);
+
+    //print_matching(G, M, std::cout);
 
     // restore buffers
     std::cin.rdbuf(cin_buf);
@@ -42,6 +50,8 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
 
 int main(int argc, char* argv[]) {
     int c = 0;
+    bool compute_sea_popular = false;
+    bool compute_lp_smfq = false;
     bool compute_stable = false;
     bool compute_popular = false;
     bool compute_max_card = false;
@@ -60,10 +70,12 @@ int main(int argc, char* argv[]) {
     // -r and -h compute the resident and hopsital heuristic for an HRLQ instance
     // -i is the path to the input graph, -o is the path where the matching
     // computed should be stored
-    while ((c = getopt(argc, argv, "ABspmrhyei:o:")) != -1) {
+    while ((c = getopt(argc, argv, "ABzlspmrhyei:o:")) != -1) {
         switch (c) {
             case 'A': A_proposing = true; break;
             case 'B': A_proposing = false; break;
+            case 'l': compute_lp_smfq = true; break;
+            case 'z': compute_sea_popular = true; break;
             case 's': compute_stable = true; break;
             case 'p': compute_popular = true; break;
             case 'm': compute_max_card = true; break;
@@ -88,7 +100,11 @@ int main(int argc, char* argv[]) {
 
     if (compute_stable) {
         compute_matching<StableMarriage>(A_proposing, input_file, output_file);
-    } else if (compute_popular) {
+    }else if (compute_lp_smfq) {
+        compute_matching<LpApproxSMFQ>(A_proposing, input_file, output_file);
+    }else if (compute_sea_popular) {
+        compute_matching<SEAPopularHRLQ>(A_proposing, input_file, output_file);
+    }else if (compute_popular) {
         compute_matching<MaxCardPopular>(A_proposing, input_file, output_file);
     } else if (compute_max_card) {
         compute_matching<PopularAmongMaxCard>(A_proposing, input_file, output_file);

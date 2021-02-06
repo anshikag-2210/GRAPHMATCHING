@@ -14,7 +14,7 @@ add_subdirectory(lib)
 add_subdirectory(test)
 
 # build
-add_executable(graphmatching main.cc)
+add_executable(graphmatching main.cc "include/LpApproxSMFQ.h")
 target_link_libraries(graphmatching graph)
 
 install(TARGETS graphmatching RUNTIME DESTINATION bin)

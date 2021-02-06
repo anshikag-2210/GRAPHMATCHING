@@ -1,0 +1,32 @@
+Input Parameters
+R = 7 ,H = 2 ,LR = 2 ,LH = 7 ,UC = 2
+
+Output
+Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev
+SM,7,16,1,6,0,0
+Lp-approx,7,70,7,0,6,6
+
+Additional output
+Hospital, h1, h2
+Capacity, 10, 1
+Cost, 1, 10
+SM, 6, 1
+Lp-approx, 0, 7
+
+Stable Matching
+r1,h1,2
+r2,h1,2
+r3,h1,2
+r4,h1,2
+r5,h1,2
+r6,h1,2
+r7,h2,1
+
+Lp_Approx Matching
+r1,h2,1
+r2,h2,1
+r3,h2,1
+r4,h2,1
+r5,h2,1
+r6,h2,1
+r7,h2,1
