@@ -1,4 +1,5 @@
 #include "LpApproxSMFQ.h"
+#include "Exact_Exponential_SMFQ.h"
 #include "Vertex.h"
 #include "Partner.h"
 #include "Utils.h"
@@ -14,6 +15,56 @@ LpApproxSMFQ::LpApproxSMFQ(std::shared_ptr<BipartiteGraph> G,
     bool A_proposing)
     : MatchingAlgorithm(std::move(G), A_proposing)
 {}
+
+//check if output matching is relaxed stable
+bool LpApproxSMFQ::is_envy_free(std::shared_ptr<BipartiteGraph> G,
+    std::shared_ptr<MatchingAlgorithm::MatchedPairListType> M) {
+
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+    auto A_partition = G->get_A_partition();
+
+    //for each resident check if it can be in a blocking pair
+    for (auto& it : A_partition) {
+        //resident
+        auto u = it.second;
+        auto& u_pref_list = u->get_preference_list();
+
+        bookkeep_data[u] = VertexBookkeeping(0, u->get_preference_list().size());
+
+        // while u hasn't exhausted its preference list
+        while (not bookkeep_data[u].is_exhausted()) {
+            //hospital to be checked if (r,h) is a blocking pair 
+            auto v = u_pref_list.at(bookkeep_data[u].begin).vertex;
+            auto v_pref_list = v->get_preference_list();
+
+            //if this hospital is matched to this resident then no need to check for later hospitals
+            auto M_u = M->find(u);
+            if (M_u != M->end()) {
+                auto& partners = M_u->second;
+                // v is found in u's matchings
+                if (partners.find(v) != partners.cend()) {
+                    break;
+                }
+            }
+         
+            // if v has a matching compare u with v's worst partner
+            if (M->find(v) != M->end()) {
+                // v's worst partner
+                auto v_worst_partner = M->at(v).get_least_preferred();
+                auto v_worst_partner_rank = compute_rank(v_worst_partner.vertex, v_pref_list);
+                auto u_rank = compute_rank(u, v_pref_list);
+                //if v prefers its worst partner to u check for next hospital
+                if (v_worst_partner_rank > u_rank) {
+                    return false;
+                }
+            }
+            
+            //incrementing propose pointer of u
+            bookkeep_data[u].begin += 1;
+        }
+    }
+    return true;
+}
 
 // GCD of 'a' and 'b' 
 void LpApproxSMFQ::print_additional_output(std::shared_ptr<BipartiteGraph> G
@@ -241,14 +292,34 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> LpApproxSMFQ::compute_ma
     s.get_smfq_statistics(G, M, Ms, "Lp-approx", cost, additional_output);
     additional_output_names.push_back("Lp-approx");
 
+    //find exact exponential matching
+    Exact_Exponential_SMFQ alg1(G, true);
+    auto Me = alg1.compute_matching();
+    // print exact exponential matching statistics
+    s.get_smfq_statistics(G, Me, Ms, "Exact Exp", cost, additional_output);
+    additional_output_names.push_back("Exact Exp");
+
     //printing additional outputs
     print_additional_output(G, additional_output, additional_output_names);
 
     // printing matchings
     std::cout << "\nStable Matching\n";
+    if (!is_envy_free(G, Ms)) {
+        std::cout << "Not Envy Free\n";
+    }
     print_matching(G, Ms, std::cout);
+
     std::cout << "\nLp_Approx Matching\n";
+    if (!is_envy_free(G, M)) {
+        std::cout << "Not Envy Free\n";
+    }
     print_matching(G, M, std::cout);
+
+    std::cout << "\nExact Exp Matching\n";
+    if (!is_envy_free(G, Me)) {
+        std::cout << "Not Envy Free\n";
+    }
+    print_matching(G, Me, std::cout);
 
     return M;
 }

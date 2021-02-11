@@ -14,7 +14,7 @@ add_subdirectory(lib)
 add_subdirectory(test)
 
 # build
-add_executable(graphmatching main.cc "include/LpApproxSMFQ.h")
+add_executable(graphmatching main.cc "include/LpApproxSMFQ.h" "include/Exact_Exponential_SMFQ.h")
 target_link_libraries(graphmatching graph)
 
 install(TARGETS graphmatching RUNTIME DESTINATION bin)

@@ -6,4 +6,5 @@ add_library(graph
                 HHeuristicHRLQ.cc RHeuristicHRLQ.cc
                 BipartiteGraph.cc Partner.cc PartnerList.cc PreferenceList.cc Vertex.cc
                 GraphReader.cc Utils.cc 
-                RelaxedStable.cc Statistics.cc SEAPopularHRLQ.cc LpApproxSMFQ.cc)
+                RelaxedStable.cc Statistics.cc SEAPopularHRLQ.cc 
+                LpApproxSMFQ.cc Exact_Exponential_SMFQ.cc)

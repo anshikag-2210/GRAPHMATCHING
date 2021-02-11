@@ -13,6 +13,8 @@ class LpApproxSMFQ : public MatchingAlgorithm {
 public:
     explicit LpApproxSMFQ(std::shared_ptr<BipartiteGraph> G, bool A_proposing = false);
     ~LpApproxSMFQ() override = default;
+    bool is_envy_free(std::shared_ptr<BipartiteGraph> G,
+        std::shared_ptr<MatchingAlgorithm::MatchedPairListType> M);
     int gcd(int a, int b);
     int find_costs(std::shared_ptr<BipartiteGraph> G,
         std::map<VertexPtr, unsigned int>& cost,

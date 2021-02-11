@@ -2,6 +2,7 @@
 #include "StableMarriage.h"
 #include "SEAPopularHRLQ.h"
 #include "LpApproxSMFQ.h"
+#include "Exact_Exponential_SMFQ.h"
 #include "Statistics.h"
 #include "Popular.h"
 #include "RHeuristicHRLQ.h"
@@ -52,6 +53,7 @@ int main(int argc, char* argv[]) {
     int c = 0;
     bool compute_sea_popular = false;
     bool compute_lp_smfq = false;
+    bool compute_exact_exp_smfq = false;
     bool compute_stable = false;
     bool compute_popular = false;
     bool compute_max_card = false;
@@ -70,10 +72,11 @@ int main(int argc, char* argv[]) {
     // -r and -h compute the resident and hopsital heuristic for an HRLQ instance
     // -i is the path to the input graph, -o is the path where the matching
     // computed should be stored
-    while ((c = getopt(argc, argv, "ABzlspmrhyei:o:")) != -1) {
+    while ((c = getopt(argc, argv, "ABzklspmrhyei:o:")) != -1) {
         switch (c) {
             case 'A': A_proposing = true; break;
-            case 'B': A_proposing = false; break;
+            case 'B': A_proposing = false; break; 
+            case 'k': compute_exact_exp_smfq = true; break;
             case 'l': compute_lp_smfq = true; break;
             case 'z': compute_sea_popular = true; break;
             case 's': compute_stable = true; break;
@@ -97,9 +100,10 @@ int main(int argc, char* argv[]) {
             default: break;
         }
     }
-
     if (compute_stable) {
         compute_matching<StableMarriage>(A_proposing, input_file, output_file);
+    }else if (compute_exact_exp_smfq) {
+        compute_matching<Exact_Exponential_SMFQ>(A_proposing, input_file, output_file);
     }else if (compute_lp_smfq) {
         compute_matching<LpApproxSMFQ>(A_proposing, input_file, output_file);
     }else if (compute_sea_popular) {

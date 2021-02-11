@@ -5,6 +5,7 @@ Output
 Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev
 SM,5,32,5,0,0,0
 Lp-approx,5,35,2,3,3,1
+Exact Exp,5,27,2,1,3,1
 
 Additional output
 Hospital, h0, h1, h2, h3, h4
@@ -12,6 +13,7 @@ Capacity, 15, 20, 10, 30, 6
 Cost, 4, 3, 6, 2, 10
 SM, 3, 0, 0, 0, 2
 Lp-approx, 0, 1, 2, 0, 2
+Exact Exp, 0, 1, 0, 2, 2
 
 Stable Matching
 r0,h0,1
@@ -24,5 +26,12 @@ Lp_Approx Matching
 r0,h1,2
 r1,h2,2
 r2,h2,2
+r3,h4,1
+r4,h4,1
+
+Exact Exp Matching
+r0,h1,2
+r1,h3,3
+r2,h3,3
 r3,h4,1
 r4,h4,1
