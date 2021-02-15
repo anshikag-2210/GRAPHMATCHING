@@ -10,6 +10,7 @@
 #include <string>
 #include <iterator>
 #include <iostream>
+#include <algorithm>
 
 Exact_Exponential_SMFQ::Exact_Exponential_SMFQ(std::shared_ptr<BipartiteGraph> G,
     bool A_proposing)
@@ -90,12 +91,16 @@ int Exact_Exponential_SMFQ::find_costs(std::shared_ptr<BipartiteGraph> G,
 }
 
 void Exact_Exponential_SMFQ::find_distinct_costs(std::shared_ptr<BipartiteGraph> G,
-    std::map<VertexPtr, unsigned int>& cost,
-    std::vector<std::vector<int>>& distinct_costs) {
+    std::map<VertexPtr, unsigned int>& cost, std::vector<std::vector<int>>& distinct_costs,
+    unsigned int& min_cost_possible, unsigned int& max_cost_possible) {
 
     // VertexBookkeeping for maintaining propose pointer
     // to know current proposing position in pref list 
     std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    // initially set them to zero
+    min_cost_possible = 0;
+    max_cost_possible = 0;
 
     // for each resident find all distinct costs in its pref list
     for (auto& it : G->get_A_partition()) {
@@ -127,35 +132,47 @@ void Exact_Exponential_SMFQ::find_distinct_costs(std::shared_ptr<BipartiteGraph>
             //incrementing propose pointer of r
             bookkeep_data[r].begin += 1;
         }
+
+        // sort the distinct_costs_of_r vector
+        sort(distinct_costs_of_r.begin(), distinct_costs_of_r.end());
+        // update min and max possible values for cost of tuple
+        min_cost_possible += distinct_costs_of_r[0];
+        max_cost_possible += distinct_costs_of_r.back();
+
         //pushing vector to main vector
         distinct_costs.push_back(distinct_costs_of_r);
     }
 }
 
-// returns true if edges is r_perfect
-int Exact_Exponential_SMFQ::is_r_perfect(std::vector<std::vector<bool>>& edges) {
-
-    for (int i = 0; i < edges.size(); i++) {
-        bool found_true = false;
-        for (int j = 0; j < edges[i].size(); j++) {
-            if (edges[i][j] == true) {
-                found_true = true;
-                break;
-            }
-        }
-        if (!found_true)return 0;
+// returns true if all residents have atleast one edge with hospital
+int Exact_Exponential_SMFQ::is_r_perfect(std::vector<int> &degree_of_residents) {
+    // if any resident has degree 0 return false
+    for (int i = 0; i < degree_of_residents.size(); i++) {
+        if (degree_of_residents[i] == 0)return 0;
     }
     return 1;
 }
 
-void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGraph> G,
+bool Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGraph> G,
     std::shared_ptr<MatchingAlgorithm::MatchedPairListType> &M, std::map<VertexPtr, unsigned int>& index,
     std::vector<std::vector<bool>>& edges, std::map<VertexPtr, unsigned int>& cost, 
-    std::vector<int>& temp_tuple, unsigned int &min_cost) {
+    std::vector<int>& temp_tuple) {
+
+
+    unsigned int tuple_cost = 0;
+    std::cout << "tuple----------------------------\n";
+    for (int i = 0; i < temp_tuple.size(); i++) {
+        std::cout << temp_tuple[i] << " ";
+        tuple_cost += temp_tuple[i];
+    }
+    std::cout << "cost = "<<tuple_cost<<"\n------------------------------------------\n";
 
     // VertexBookkeeping for maintaining propose pointer
     // to know current proposing position in pref list 
     std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    // to maintain degree of residents
+    std::vector<int> degree_of_residents(G->get_A_partition().size(), 0);
 
     // for each resident mark all hospitals in its pref list with respective cost in tuple
     for (auto& it : G->get_A_partition()) {
@@ -178,6 +195,7 @@ void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
             // we should include edges(r,h) in graph
             if (cost[h] == cost_to_be_set) {
                 edges[index_of_r][index_of_h] = true;
+                degree_of_residents[index_of_r]++;
             }
             else {
                 edges[index_of_r][index_of_h] = false;
@@ -186,12 +204,14 @@ void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
             //incrementing propose pointer of r
             bookkeep_data[r].begin += 1;
         }
+        // if r1 has degree 0, then r-perfect not possible
+        if (degree_of_residents[index_of_r] <= 0)return false;
     }
 
     bool change = true;
 
     // while graph is R-perfect and change is true
-    while (is_r_perfect(edges) && change) {
+    while (is_r_perfect(degree_of_residents) && change) {
 
         change = false;
 
@@ -201,10 +221,6 @@ void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
             auto r = it.second;
             auto index_of_r = index[r];
             auto& r_pref_list = r->get_preference_list();
-
-            // to find top preferred hospital of r in new pruned graph
-            // initially taken as first hospital
-            auto top_preffered_hospital_of_r = r_pref_list.at(0).vertex;
 
             bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
 
@@ -216,11 +232,12 @@ void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
                 auto index_of_h = index[h];
 
                 // if hospital h has edge with r in new graph
+                // no need to traverse remaining pref list
+                // as h is the top preferred in pruned graph
                 if (edges[index_of_r][index_of_h] == true) {
-                    top_preffered_hospital_of_r = h;
                     break;
                 }
-                // h is more preferred by r than top preferred in original graph
+                // h is more preferred in original graph by r than top preferred in pruned graph
                 else {
                     // we have to delete all edges (r1, h)
                     // where h prefers r over r1
@@ -238,6 +255,9 @@ void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
                         if (start_deleting && edges[index_of_r1][index_of_h] == true) {
                             // delete the  edge (r1, h)
                             edges[index_of_r1][index_of_h] = false;
+                            degree_of_residents[index_of_r1]--;
+                            // if r1 has degree 0, then r-perfect not possible
+                            if (degree_of_residents[index_of_r1] <= 0)return false;
                             change = true;
                         }
 
@@ -258,17 +278,14 @@ void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
 
             // if r exhausted its list and 
             // there is no edge for r in new graph
-            auto index_of_top_pref_h = index[top_preffered_hospital_of_r];
-            if (edges[index_of_r][index_of_top_pref_h] == false) {
-                // this cost tuple wont give r-perfect stable matching
-                break;
-            }
+            // means r has degree 0, then r-perfect not possible
+            if (degree_of_residents[index_of_r] <= 0)return false;
 
         } // end of for loop of residents
     }//end of while loop
 
     // if r-perfect matching is possible
-    if (is_r_perfect(edges)) {
+    if (is_r_perfect(degree_of_residents)) {
         // to maintain matching for this tuple
         auto M1 = std::make_shared<MatchingAlgorithm::MatchedPairListType>();
         auto temp_cost = 0;
@@ -306,36 +323,57 @@ void Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
             }
         }
 
-        // if M1 is the new min_cost matching
-        if (temp_cost < min_cost) {
-            min_cost = temp_cost;
-            M = M1;
+        
+        //printing tuple
+        /*std::cout << "tuple----------------------------\n";
+        for (int i = 0; i < temp_tuple.size(); i++) {
+            std::cout << temp_tuple[i] << " ";
         }
+        std::cout << "\n------------------------------------------\n";*/
+        std::cout << "cost = " << temp_cost << "\n";
+        print_matching(G, M1, std::cout);
+
+        // M1 is the new min_cost matching
+        M = M1;
+        return true;
     }
+    return false;
 }
 
 
 // to generate all tuples
-void Exact_Exponential_SMFQ::find_tuples(std::shared_ptr<BipartiteGraph> G,
+bool Exact_Exponential_SMFQ::find_tuples(std::shared_ptr<BipartiteGraph> G,
     std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M, std::map<VertexPtr, unsigned int>& index,
     std::vector<std::vector<bool>>& edges, std::map<VertexPtr, unsigned int>& cost, 
-    std::vector<std::vector<int>>& distinct_costs, std::vector<int> &temp_tuple, int pointer) {
+    std::vector<std::vector<int>>& distinct_costs, std::vector<int> &temp_tuple, int pointer,
+    unsigned int required_cost) {
 
-    unsigned min_cost = UINT_MAX; 
-
-    //if pointer equal size of distinct costs
+    std::cout << "------------------------- Adding Tuple \n";
+    //if pointer is equal to size of distinct costs
     if (pointer >= distinct_costs.size()) {
-        find_matching_for_tuple(G, M, index, edges, cost, temp_tuple, min_cost);
-        return;
+        std::cout << "------------------------- New Tuple \n";
+        if (required_cost == 0) {
+            if (find_matching_for_tuple(G, M, index, edges, cost, temp_tuple)) {
+                return true;
+            }
+        }
+        return false;
     }
     else {
-        // add each cost of that resident one by one
+        // add each cost of that resident one by one if it is not exceeding required cost
         // and recurse
         for (int i = 0; i < distinct_costs[pointer].size(); i++) {
-            temp_tuple.push_back(distinct_costs[pointer][i]);
-            find_tuples(G, M, index, edges, cost, distinct_costs, temp_tuple, pointer+1);
-            temp_tuple.pop_back();
+            if (distinct_costs[pointer][i] <= required_cost) {
+                temp_tuple.push_back(distinct_costs[pointer][i]);
+                if (find_tuples(G, M, index, edges, cost, distinct_costs, temp_tuple,
+                    pointer + 1, required_cost - distinct_costs[pointer][i])) {
+                    return true;
+                }
+                temp_tuple.pop_back();
+            }
+            else return false;
         }
+        return false;
     }
 }
 
@@ -346,10 +384,6 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> Exact_Exponential_SMFQ::
     unsigned int R, H;
     R = G->get_A_partition().size();
     H = G->get_B_partition().size();
-
-    // VertexBookkeeping for maintaining propose pointer
-    // to know current proposing position in pref list 
-    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
 
     //to maintain indices of residents and hospitals
     std::map<VertexPtr, unsigned int> index;
@@ -363,24 +397,29 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> Exact_Exponential_SMFQ::
     // to maintain edges of pruned graph for every tuple
     std::vector<std::vector<bool>> edges(R, std::vector<bool>(H,false));
 
+    // to maintain minimum and maximum costs possible
+    unsigned int min_cost_possible, max_cost_possible;
+
     //find cost of hospitals
     //if hospital or resident has no pref list, find_costs method returns -1
     if (!find_costs(G, cost)) {
         return M;
-    }
+    } 
     
     // find indices of vertices
     find_indices(G, index);
 
-    unsigned long long int count = 1;
-    
     // find distinct costs for each resident
-    find_distinct_costs(G, cost, distinct_costs);
+    find_distinct_costs(G, cost, distinct_costs, min_cost_possible, max_cost_possible);
     
     // find all possible tuples of costs
     std::vector<int> temp_tuple;
-    find_tuples(G, M, index, edges, cost, distinct_costs, temp_tuple, 0);
-
+    for (unsigned int i = min_cost_possible; i <= max_cost_possible; i++) {
+        std::cout << "------------------------- New Cost -------------------------------\n";
+        if (find_tuples(G, M, index, edges, cost, distinct_costs, temp_tuple, 0, i)) {
+            break;
+        }
+    }
+    
     return M;
-
 }

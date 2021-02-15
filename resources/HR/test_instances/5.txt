@@ -1,0 +1,46 @@
+@PartitionA
+r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21 ;
+@End
+
+@PartitionB
+h0 (5), h1 (1), h2 (1), h3 (1), h4 (1), h5 (1), h6 (1), h7 (1), h8 (1) ;
+@End
+
+@PreferenceListsA
+r0 : h1, h2 ;
+r1 : h3, h1, h0 ;
+r2 : h4, h2, h0 ;
+r3 : h5, h1, h0 ;
+r4 : h6, h3, h0 ;
+r5 : h7, h2, h0 ;
+r6 : h8, h4, h0 ;
+r7 : h1, h0 ;
+r8 : h5, h0 ;
+r9 : h3, h0 ;
+r10 : h6, h0 ;
+r11 : h2, h0 ;
+r12 : h7, h0 ;
+r13 : h4, h0 ;
+r14 : h8, h0 ;
+r15 : h2 ;
+r16 : h3 ;
+r17 : h4 ;
+r18 : h5 ;
+r19 : h6 ;
+r20 : h7 ;
+r21 : h8 ;
+@End
+
+@PreferenceListsB
+h0 : r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14 ;
+h1 : r7, r3, r1, r0 ;
+h2 : r11, r5, r2, r0, r15 ;
+h3 : r9, r4, r1, r16 ;
+h4 : r13, r6, r2, r17 ;
+h5 : r3, r8, r18 ;
+h6 : r4, r10, r19 ;
+h7 : r5, r12, r20 ;
+h8 : r6, r14, r21 ;
+
+@End
+

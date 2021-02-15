@@ -31,7 +31,7 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
     }
 
     if (output_file) {
-        std::cout.rdbuf(fileout.rdbuf());
+        //std::cout.rdbuf(fileout.rdbuf());
     }
 
     std::shared_ptr<BipartiteGraph> G = GraphReader(std::cin).read_graph();
@@ -41,7 +41,7 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
     //Statistics s;
     //s.get_statistics(G, M);
     //s.get_smfq_statistics(G, M);
-
+    //std::cout << "Final Matching----------------------------------------\n";
     //print_matching(G, M, std::cout);
 
     // restore buffers
