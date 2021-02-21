@@ -282,6 +282,14 @@ build lib\CMakeFiles\graph.dir\Exact_Exponential_SMFQ.cc.obj: CXX_COMPILER__grap
   TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
   TARGET_PDB = lib\graph.pdb
 
+build lib\CMakeFiles\graph.dir\DirectApproachHR2LQ.cc.obj: CXX_COMPILER__graph_Debug ..\..\..\lib\DirectApproachHR2LQ.cc || cmake_object_order_depends_target_graph
+  FLAGS = -m64 -fdiagnostics-absolute-paths  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   -Wall -O0 -g -std:c++17
+  INCLUDES = -I..\..\..\include -I..\..\..\lib\include
+  OBJECT_DIR = lib\CMakeFiles\graph.dir
+  OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
+  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
+  TARGET_PDB = lib\graph.pdb
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target graph
@@ -290,7 +298,7 @@ build lib\CMakeFiles\graph.dir\Exact_Exponential_SMFQ.cc.obj: CXX_COMPILER__grap
 #############################################
 # Link the static library lib\graph.lib
 
-build lib\graph.lib: CXX_STATIC_LIBRARY_LINKER__graph_Debug lib\CMakeFiles\graph.dir\MatchingAlgorithm.cc.obj lib\CMakeFiles\graph.dir\NProposingMatching.cc.obj lib\CMakeFiles\graph.dir\YokoiEnvyfreeHRLQ.cc.obj lib\CMakeFiles\graph.dir\MaximalEnvyfreeHRLQ.cc.obj lib\CMakeFiles\graph.dir\HHeuristicHRLQ.cc.obj lib\CMakeFiles\graph.dir\RHeuristicHRLQ.cc.obj lib\CMakeFiles\graph.dir\BipartiteGraph.cc.obj lib\CMakeFiles\graph.dir\Partner.cc.obj lib\CMakeFiles\graph.dir\PartnerList.cc.obj lib\CMakeFiles\graph.dir\PreferenceList.cc.obj lib\CMakeFiles\graph.dir\Vertex.cc.obj lib\CMakeFiles\graph.dir\GraphReader.cc.obj lib\CMakeFiles\graph.dir\Utils.cc.obj lib\CMakeFiles\graph.dir\RelaxedStable.cc.obj lib\CMakeFiles\graph.dir\Statistics.cc.obj lib\CMakeFiles\graph.dir\SEAPopularHRLQ.cc.obj lib\CMakeFiles\graph.dir\LpApproxSMFQ.cc.obj lib\CMakeFiles\graph.dir\Exact_Exponential_SMFQ.cc.obj
+build lib\graph.lib: CXX_STATIC_LIBRARY_LINKER__graph_Debug lib\CMakeFiles\graph.dir\MatchingAlgorithm.cc.obj lib\CMakeFiles\graph.dir\NProposingMatching.cc.obj lib\CMakeFiles\graph.dir\YokoiEnvyfreeHRLQ.cc.obj lib\CMakeFiles\graph.dir\MaximalEnvyfreeHRLQ.cc.obj lib\CMakeFiles\graph.dir\HHeuristicHRLQ.cc.obj lib\CMakeFiles\graph.dir\RHeuristicHRLQ.cc.obj lib\CMakeFiles\graph.dir\BipartiteGraph.cc.obj lib\CMakeFiles\graph.dir\Partner.cc.obj lib\CMakeFiles\graph.dir\PartnerList.cc.obj lib\CMakeFiles\graph.dir\PreferenceList.cc.obj lib\CMakeFiles\graph.dir\Vertex.cc.obj lib\CMakeFiles\graph.dir\GraphReader.cc.obj lib\CMakeFiles\graph.dir\Utils.cc.obj lib\CMakeFiles\graph.dir\RelaxedStable.cc.obj lib\CMakeFiles\graph.dir\Statistics.cc.obj lib\CMakeFiles\graph.dir\SEAPopularHRLQ.cc.obj lib\CMakeFiles\graph.dir\LpApproxSMFQ.cc.obj lib\CMakeFiles\graph.dir\Exact_Exponential_SMFQ.cc.obj lib\CMakeFiles\graph.dir\DirectApproachHR2LQ.cc.obj
   LANGUAGE_COMPILE_FLAGS = -m64 -fdiagnostics-absolute-paths  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64
   OBJECT_DIR = lib\CMakeFiles\graph.dir

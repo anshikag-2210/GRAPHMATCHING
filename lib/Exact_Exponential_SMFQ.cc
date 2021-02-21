@@ -159,13 +159,13 @@ bool Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
     std::vector<int>& temp_tuple) {
 
 
-    unsigned int tuple_cost = 0;
+    /*unsigned int tuple_cost = 0;
     std::cout << "tuple----------------------------\n";
     for (int i = 0; i < temp_tuple.size(); i++) {
         std::cout << temp_tuple[i] << " ";
         tuple_cost += temp_tuple[i];
     }
-    std::cout << "cost = "<<tuple_cost<<"\n------------------------------------------\n";
+    std::cout << "cost = "<<tuple_cost<<"\n------------------------------------------\n";*/
 
     // VertexBookkeeping for maintaining propose pointer
     // to know current proposing position in pref list 
@@ -340,7 +340,6 @@ bool Exact_Exponential_SMFQ::find_matching_for_tuple(std::shared_ptr<BipartiteGr
     return false;
 }
 
-
 // to generate all tuples
 bool Exact_Exponential_SMFQ::find_tuples(std::shared_ptr<BipartiteGraph> G,
     std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M, std::map<VertexPtr, unsigned int>& index,
@@ -348,10 +347,18 @@ bool Exact_Exponential_SMFQ::find_tuples(std::shared_ptr<BipartiteGraph> G,
     std::vector<std::vector<int>>& distinct_costs, std::vector<int> &temp_tuple, int pointer,
     unsigned int required_cost) {
 
-    std::cout << "------------------------- Adding Tuple \n";
+    //std::cout << "------------------------- Adding Tuple \n";
+    static int count = 1;
     //if pointer is equal to size of distinct costs
     if (pointer >= distinct_costs.size()) {
-        std::cout << "------------------------- New Tuple \n";
+        std::cout << "------------------------- New Tuple " << count << " \n";
+        unsigned int tuple_cost = 0;
+        for (int i = 0; i < temp_tuple.size(); i++) {
+            std::cout << temp_tuple[i] << " ";
+            tuple_cost += temp_tuple[i];
+        }
+        std::cout << "cost = " << tuple_cost << "\n------------------------------------------\n";
+        count++;
         if (required_cost == 0) {
             if (find_matching_for_tuple(G, M, index, edges, cost, temp_tuple)) {
                 return true;
@@ -372,6 +379,46 @@ bool Exact_Exponential_SMFQ::find_tuples(std::shared_ptr<BipartiteGraph> G,
                 temp_tuple.pop_back();
             }
             else return false;
+        }
+        return false;
+    }
+}
+
+
+bool Exact_Exponential_SMFQ::find_valid_tuples(std::shared_ptr<BipartiteGraph> G,
+    std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M, std::map<VertexPtr, unsigned int>& index,
+    std::vector<std::vector<bool>>& edges, std::map<VertexPtr, unsigned int>& cost, 
+    std::vector<std::vector<std::vector<int>>> &cost_matrix,
+    int present_index, int req_cost, std::vector<int>& temp_tuple) {
+    if (present_index < 0) {
+        // reverse temp_tuple
+        std::reverse(temp_tuple.begin(), temp_tuple.end());
+
+        std::cout << "------------------------- New Tuple \n";
+        unsigned int tuple_cost = 0;
+        for (int i = 0; i < temp_tuple.size(); i++) {
+            std::cout << temp_tuple[i] << " ";
+            tuple_cost += temp_tuple[i];
+        }
+        std::cout << "cost = " << tuple_cost << "\n------------------------------------------\n";
+
+        if (find_matching_for_tuple(G, M, index, edges, cost, temp_tuple)) {
+            return true;
+        }
+        std::reverse(temp_tuple.begin(), temp_tuple.end());
+        return false;
+    }
+    else {
+        for (int i = 0; i < cost_matrix[present_index][req_cost].size(); i++) {
+            int present_cost = cost_matrix[present_index][req_cost][i];
+            if (present_cost > req_cost)break;
+            // costs in temp_tuple are added in reverse order of residents 
+            temp_tuple.push_back(present_cost);
+            if (find_valid_tuples(G, M, index, edges, cost, cost_matrix, present_index - 1, 
+                req_cost - present_cost, temp_tuple)) {
+                return true;
+            }
+            temp_tuple.pop_back();
         }
         return false;
     }
@@ -412,14 +459,64 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> Exact_Exponential_SMFQ::
     // find distinct costs for each resident
     find_distinct_costs(G, cost, distinct_costs, min_cost_possible, max_cost_possible);
     
+    /*
     // find all possible tuples of costs
     std::vector<int> temp_tuple;
     for (unsigned int i = min_cost_possible; i <= max_cost_possible; i++) {
-        std::cout << "------------------------- New Cost -------------------------------\n";
+        std::cout << "------------------------- New Cost "<<i<<" -------------------------------\n";
         if (find_tuples(G, M, index, edges, cost, distinct_costs, temp_tuple, 0, i)) {
             break;
         }
     }
+    */
+
+    std::vector<std::vector<std::vector<int>>> cost_matrix(R, std::vector<std::vector<int>>(max_cost_possible+1));
     
+    std::vector<int> temp_tuple;
+    for (unsigned int i = 1; i <= max_cost_possible; i++) {
+        std::cout << i << " cost --------------------- \n";
+        // j denotes index of resident
+        for (int j = 0; j < R; j++) {
+            // for each distinct cost in resident's pref list
+            //std::cout << j << " resident \n";
+            for (int k = 0; k < distinct_costs[j].size(); k++) {
+                int temp_cost = distinct_costs[j][k];
+                //std::cout << temp_cost << " distinct cost \n";
+                if (temp_cost < i) {
+                    if (j == 0) {
+                        continue;
+                    }
+                    else if (cost_matrix[j - 1][i - temp_cost].size() > 0) {
+                        cost_matrix[j][i].push_back(temp_cost);
+                        //std::cout << temp_cost << "--------------pushed \n";
+                    }
+                }
+                else if (temp_cost == i) {
+                    if (j == 0) {
+                        cost_matrix[j][i].push_back(temp_cost);
+                        //std::cout << temp_cost << "--------------pushed \n";
+                    }
+                    else {
+                        break;
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+        }
+
+        // if last row ith column is not empty
+        // then there is atleast one valid tuple for the cost i
+        if (cost_matrix[R - 1][i].size() > 0) {
+            std::cout << "----------------- New Cost " << i << " ------------------\n";
+            // test all possible tuples of cost i
+            // if any tuple gives a R-perfect matching, stop the process
+            if (find_valid_tuples(G, M, index, edges, cost, cost_matrix, R - 1, i, temp_tuple)) {
+                break;
+            }
+        }
+    }
+    std::cout << "----------------- output ------------------\n";
     return M;
 }

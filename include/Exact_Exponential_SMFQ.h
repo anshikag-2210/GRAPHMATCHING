@@ -31,6 +31,11 @@ public:
         std::shared_ptr<MatchingAlgorithm::MatchedPairListType> &M, std::map<VertexPtr, unsigned int>& index,
         std::vector<std::vector<bool>>& edges, std::map<VertexPtr, unsigned int>& cost,
         std::vector<int>& temp_tuple);
+    bool find_valid_tuples(std::shared_ptr<BipartiteGraph> G,
+        std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M, std::map<VertexPtr, unsigned int>& index,
+        std::vector<std::vector<bool>>& edges, std::map<VertexPtr, unsigned int>& cost,
+        std::vector<std::vector<std::vector<int>>>& cost_matrix,
+        int present_index, int req_cost, std::vector<int>& temp_tuple);
     std::shared_ptr<MatchedPairListType> compute_matching() override;
 };
 

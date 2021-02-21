@@ -3,6 +3,7 @@
 #include "SEAPopularHRLQ.h"
 #include "LpApproxSMFQ.h"
 #include "Exact_Exponential_SMFQ.h"
+#include "DirectApproachHR2LQ.h"
 #include "Statistics.h"
 #include "Popular.h"
 #include "RHeuristicHRLQ.h"
@@ -31,7 +32,7 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
     }
 
     if (output_file) {
-        //std::cout.rdbuf(fileout.rdbuf());
+        std::cout.rdbuf(fileout.rdbuf());
     }
 
     std::shared_ptr<BipartiteGraph> G = GraphReader(std::cin).read_graph();
@@ -42,7 +43,7 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
     //s.get_statistics(G, M);
     //s.get_smfq_statistics(G, M);
     //std::cout << "Final Matching----------------------------------------\n";
-    //print_matching(G, M, std::cout);
+    print_matching(G, M, std::cout);
 
     // restore buffers
     std::cin.rdbuf(cin_buf);
@@ -52,6 +53,7 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
 int main(int argc, char* argv[]) {
     int c = 0;
     bool compute_sea_popular = false;
+    bool compute_direct_sm2lq = false;
     bool compute_lp_smfq = false;
     bool compute_exact_exp_smfq = false;
     bool compute_stable = false;
@@ -72,10 +74,11 @@ int main(int argc, char* argv[]) {
     // -r and -h compute the resident and hopsital heuristic for an HRLQ instance
     // -i is the path to the input graph, -o is the path where the matching
     // computed should be stored
-    while ((c = getopt(argc, argv, "ABzklspmrhyei:o:")) != -1) {
+    while ((c = getopt(argc, argv, "ABzdklspmrhyei:o:")) != -1) {
         switch (c) {
             case 'A': A_proposing = true; break;
             case 'B': A_proposing = false; break; 
+            case 'd': compute_direct_sm2lq = true; break;
             case 'k': compute_exact_exp_smfq = true; break;
             case 'l': compute_lp_smfq = true; break;
             case 'z': compute_sea_popular = true; break;
@@ -102,6 +105,8 @@ int main(int argc, char* argv[]) {
     }
     if (compute_stable) {
         compute_matching<StableMarriage>(A_proposing, input_file, output_file);
+    }else if (compute_direct_sm2lq) {
+        compute_matching<DirectApproachHR2LQ>(A_proposing, input_file, output_file);
     }else if (compute_exact_exp_smfq) {
         compute_matching<Exact_Exponential_SMFQ>(A_proposing, input_file, output_file);
     }else if (compute_lp_smfq) {
