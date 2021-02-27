@@ -32,7 +32,7 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
     }
 
     if (output_file) {
-        std::cout.rdbuf(fileout.rdbuf());
+        //std::cout.rdbuf(fileout.rdbuf());
     }
 
     std::shared_ptr<BipartiteGraph> G = GraphReader(std::cin).read_graph();

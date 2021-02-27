@@ -4,6 +4,7 @@
 #include "Vertex.h"
 #include "Partner.h"
 #include "Utils.h"
+#include <climits>
 #include <set>
 #include <iostream>
 
@@ -11,6 +12,254 @@ DirectApproachHR2LQ::DirectApproachHR2LQ(std::shared_ptr<BipartiteGraph> G,
     bool A_proposing)
     : MatchingAlgorithm(std::move(G), A_proposing)
 {}
+
+// runs floyd warshall alg and 
+// returns true if negative edge cycle is found
+bool DirectApproachHR2LQ::floyd_warshall(std::vector<std::vector<int>>& weight, int num_of_vertices) {
+    for (int i = 0; i < num_of_vertices; i++) {
+        for (int j = 0; j < num_of_vertices; j++) {
+            for (int k = 0; k < num_of_vertices; k++) {
+                if (weight[i][j] == INT_MAX || weight[j][k] == INT_MAX) {
+                    continue;
+                }
+                if (weight[i][j] + weight[j][k] < weight[i][k]) {
+                    weight[i][k] = weight[i][j] + weight[j][k];
+                }
+            }
+        }
+    }
+
+    // checking for cycle
+    for (int i = 0; i < num_of_vertices; i++) {
+        if (weight[i][i] < 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// runs bellman ford alg and 
+// returns true if negative edge cycle is found
+bool DirectApproachHR2LQ::bellman_ford(std::shared_ptr<BipartiteGraph> G,
+    std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M, std::map<VertexPtr, int> &index, 
+    std::vector<std::vector<int>> &weight, int num_of_vertices) {
+
+    // to maintain distance of source to each vertex
+    std::map<VertexPtr, int> distance;
+
+    // VertexBookkeeping for maintaining propose pointer
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    // set distances of source to each resident as 0
+    for (auto& it : G->get_A_partition()) {
+        auto r = it.second;
+        distance[r] = 0;
+    }
+
+    // set distances of source to each hospital as 0
+    for (auto& it : G->get_B_partition()) {
+        auto h = it.second;
+        distance[h] = 0;
+    }
+
+    for (int i = 1; i <= num_of_vertices; i++) {
+        //for each edge
+        for (auto& it : G->get_A_partition()) {
+            //resident
+            auto r = it.second;
+            auto index_of_r = index[r];
+            auto& r_pref_list = r->get_preference_list();
+
+            bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+            // while r hasn't exhausted its preference list
+            while (not bookkeep_data[r].is_exhausted()) {
+                //hospital in r's preflist
+                auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+                auto index_of_h = index[h];
+                auto& h_pref_list = h->get_preference_list();
+
+                // if r->h is an edge
+                if (weight[index_of_r][index_of_h] != INT_MAX) {
+                    if (distance[r] + weight[index_of_r][index_of_h] < distance[h]) {
+                        distance[h] = distance[r] + weight[index_of_r][index_of_h];
+                    }
+                }
+
+                // if h->r is an edge
+                if (weight[index_of_h][index_of_r] != INT_MAX) {
+                    if (distance[h] + weight[index_of_h][index_of_r] < distance[r]) {
+                        distance[r] = distance[h] + weight[index_of_h][index_of_r];
+                    }
+                }
+
+                //incrementing propose pointer of r
+                bookkeep_data[r].begin += 1;
+            }
+        }
+    }
+
+    // check for negative cycle
+    //for each edge
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        auto index_of_r = index[r];
+        auto& r_pref_list = r->get_preference_list();
+
+        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+        // while r hasn't exhausted its preference list
+        while (not bookkeep_data[r].is_exhausted()) {
+            //hospital in r's preflist
+            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+            auto index_of_h = index[h];
+            auto& h_pref_list = h->get_preference_list();
+
+            // if r->h is an edge
+            if (weight[index_of_r][index_of_h] != INT_MAX) {
+                if (distance[r] + weight[index_of_r][index_of_h] < distance[h]) {
+                    return true;
+                }
+            }
+
+            // if h->r is an edge
+            if (weight[index_of_h][index_of_r] != INT_MAX) {
+                if (distance[h] + weight[index_of_h][index_of_r] < distance[r]) {
+                    return true;
+                }
+            }
+
+            //incrementing propose pointer of r
+            bookkeep_data[r].begin += 1;
+        }
+    }
+    return false;
+}
+
+// return true if matching is popular
+bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
+    std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M) {
+    
+    // no of vertices will be residents + hospitals
+    int num_of_vertices = G->get_A_partition().size() + G->get_B_partition().size();
+
+    // VertexBookkeeping for maintaining propose pointer
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    //to maintain indices of residents and hospitals
+    std::map<VertexPtr, int> index;
+
+    // to maintain weights of edges
+    std::vector<std::vector<int>> weight(num_of_vertices, std::vector<int>(num_of_vertices, INT_MAX));
+    
+    int index_count = 0;
+
+    // set indices of residents
+    for (auto& it : G->get_A_partition()) {
+        auto r = it.second;
+        index[r] = index_count;
+        weight[index[r]][index[r]] = 0;
+        index_count++;
+    }
+    
+    // set indices of hospitals
+    for (auto& it : G->get_B_partition()) {
+        auto h = it.second;
+        index[h] = index_count;
+        weight[index[h]][index[h]] = 0;
+        index_count++;
+    }
+    
+    // for each edge we will calculate weight
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        auto index_of_r = index[r];
+        auto& r_pref_list = r->get_preference_list();
+    
+        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+        // while r hasn't exhausted its preference list
+        while (not bookkeep_data[r].is_exhausted()) {
+            //hospital in r's preflist
+            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+            auto index_of_h = index[h];
+            auto& h_pref_list = h->get_preference_list();
+        
+            bool r_prefers = true;
+            bool h_prefers = true;
+
+            // if r has some matchings
+            auto M_r = M->find(r);
+            if (M_r != M->end()) {
+                auto& partners = M_r->second;
+                // if edge (r,h) is matched
+                // weight will be 0 and direction is from h to r
+                if (partners.find(h) != partners.cend()) {
+                    weight[index_of_h][index_of_r] = 0;
+                    bookkeep_data[r].begin += 1;
+                    continue;
+                }
+                // if (r,h) has unmatched
+                else {
+                    // if r is fullysubscribed and r prefers least preferred over h
+                    if (number_of_partners(M, r) == r->get_upper_quota()) {
+                        // r's least preferred partner
+                        auto r_least_partner = M->at(r).get_least_preferred().vertex;
+                        auto r_least_partner_rank = compute_rank(r_least_partner, r_pref_list);
+                        if (r_least_partner_rank < compute_rank(h, r_pref_list)) {
+                            r_prefers = false;
+                        }
+                    }
+                }
+            }
+            else if (r->get_upper_quota() == 0) {
+                r_prefers = false;
+            }
+
+            if (h->get_upper_quota() == 0) {
+                h_prefers = false;
+            }
+            // if h is fullysubscribed and h prefers least preferred over r
+            else if (number_of_partners(M, h) == h->get_upper_quota()) {
+                // h's least preferred partner
+                auto h_least_partner = M->at(h).get_least_preferred().vertex;
+                auto h_least_partner_rank = compute_rank(h_least_partner, h_pref_list);
+                if (h_least_partner_rank < compute_rank(r, h_pref_list)) {
+                    h_prefers = false;
+                }
+            }
+
+            // now assign weights
+            // if +- or -+, weight = 0
+            if ((r_prefers && !h_prefers) || (!r_prefers && h_prefers)) {
+                weight[index_of_r][index_of_h] = 0;
+            }
+            // if ++, weight = -1
+            else if (r_prefers && h_prefers) {
+                weight[index_of_r][index_of_h] = -1;
+            }
+            // if --
+            else if (!r_prefers && !h_prefers) {
+                weight[index_of_r][index_of_h] = 1;
+            }
+            //incrementing propose pointer of r
+            bookkeep_data[r].begin += 1;
+        }
+    }
+    // call bellman ford algo to check -ve edge cycle
+    if (bellman_ford(G, M, index, weight, num_of_vertices)) {
+        std::cout << "negative edge cycle found in bellman ford\n";
+        return false;
+    }
+    // call floyd warshall algo to check -ve edge cycle
+    if (floyd_warshall(weight, num_of_vertices)) {
+        std::cout << "negative edge cycle found in floyd warshall\n";
+        return false;
+    }
+    return true;
+}
 
 bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M,
     const BipartiteGraph::ContainerType& proposing_partition) {
@@ -161,5 +410,9 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> DirectApproachHR2LQ::com
         std::cout << "Feasible matching not possible\n";
     }
     
+    if (!is_popular(G, M)) {
+        std::cout << "Not popular\n";
+    }
+
     return M;
 }

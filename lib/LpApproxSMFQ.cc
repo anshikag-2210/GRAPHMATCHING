@@ -8,6 +8,7 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include <iterator>
 #include <iostream>
 
@@ -97,6 +98,7 @@ int LpApproxSMFQ::gcd(int a, int b)
     return gcd(b, a % b);
 }
 
+/*
 // to find costs of hospitals
 // and to print input parameters
 int LpApproxSMFQ::find_costs(std::shared_ptr<BipartiteGraph> G,
@@ -171,6 +173,86 @@ int LpApproxSMFQ::find_costs(std::shared_ptr<BipartiteGraph> G,
     std::cout << " ,LR = " << LR;
     std::cout << " ,LH = " << LH;
     std::cout << " ,UC = " << UC<<"\n\n";
+    std::cout << "Output\n";
+    std::cout << "Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev\n";
+    return 1;
+}*/
+
+// to find costs of hospitals
+// and to print input parameters
+int LpApproxSMFQ::find_costs(std::shared_ptr<BipartiteGraph> G,
+    std::map<VertexPtr, unsigned int>& cost,
+    std::vector<std::vector<int>>& additional_output) {
+
+    unsigned int R, H, LR = 0, LH = 0, UC;
+
+    R = G->get_A_partition().size();
+    H = G->get_B_partition().size();
+
+    // find max length of resident pref list
+    for (auto& A1 : G->get_A_partition()) {
+        auto u = A1.second;
+        // if u's pref list is empty
+        if (u->get_preference_list().size() == 0) {
+            std::cout << "Resident " << u->get_id() << " has no preference list\n";
+            return -1;
+        }
+        if (u->get_preference_list().size() > LR) {
+            LR = u->get_preference_list().size();
+        }
+    }
+
+    std::vector<int> capacities;
+
+    // finding maximum of upper quota's of all hospitals
+    // find max length of hospital pref list
+    for (auto& B1 : G->get_B_partition()) {
+        auto v = B1.second;
+        // if v's pref list is empty
+        if (v->get_preference_list().size() == 0) {
+            std::cout << "Hospital " << v->get_id() << " has no preference list\n";
+            return -1;
+        }
+        if (v->get_preference_list().size() > LH) {
+            LH = v->get_preference_list().size();
+        }
+
+        int v_upper_quota = v->get_upper_quota();
+        if (std::find(capacities.begin(), capacities.end(), v_upper_quota) == capacities.end()) {
+            capacities.push_back(v_upper_quota);
+        }
+    }
+
+    // sort the distinct_costs_of_r vector
+    sort(capacities.begin(), capacities.end(), std::greater<int>());
+    
+    // set the cost of every hospital
+    // find number of distinct costs
+    // collect the additional data about capacity and cost vectors 
+    std::set<int, std::greater<int> > s1;
+    std::vector<int> capacity_vector;
+    std::vector<int> cost_vector;
+    for (auto& it : G->get_B_partition()) {
+        auto v = it.second;
+        int v_upper_quota = v->get_upper_quota();
+        cost[v] = std::find(capacities.begin(), capacities.end(), v_upper_quota) - capacities.begin() + 1;
+        s1.insert(cost[v]);
+        capacity_vector.push_back(v->get_upper_quota());
+        cost_vector.push_back(cost[v]);
+    }
+    // number of distinct costs will be size of the set
+    UC = s1.size();
+    // insert capcity and cost vectors in additional output
+    additional_output.push_back(capacity_vector);
+    additional_output.push_back(cost_vector);
+
+    //print in desired format
+    std::cout << "Input Parameters\n";
+    std::cout << "R = " << R;
+    std::cout << " ,H = " << H;
+    std::cout << " ,LR = " << LR;
+    std::cout << " ,LH = " << LH;
+    std::cout << " ,UC = " << UC << "\n\n";
     std::cout << "Output\n";
     std::cout << "Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev\n";
     return 1;
