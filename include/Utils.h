@@ -10,6 +10,9 @@
 // convert token to string representation
 const char* token_to_string(Token tok);
 
+// check if given string is a positive number
+bool is_number(const std::string& s);
+
 // convert string s to an integer in base 10
 int to_integer(const std::string& s);
 

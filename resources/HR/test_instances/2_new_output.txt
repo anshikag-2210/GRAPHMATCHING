@@ -1,5 +1,5 @@
 Input Parameters
-R = 7 ,H = 3 ,LR = 3 ,LH = 6 ,UC = 3
+R = 7 ,H = 3 ,LR = 3 ,LH = 6 ,UC = 3 ,LB1 = 10 ,LB2 = 15
 
 Output
 Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev

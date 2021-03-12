@@ -10,6 +10,7 @@
 #include <string>
 #include <algorithm>
 #include <iterator>
+#include <climits>
 #include <iostream>
 
 LpApproxSMFQ::LpApproxSMFQ(std::shared_ptr<BipartiteGraph> G,
@@ -65,6 +66,280 @@ bool LpApproxSMFQ::is_envy_free(std::shared_ptr<BipartiteGraph> G,
         }
     }
     return true;
+}
+
+int LpApproxSMFQ::get_lower_bound1(std::shared_ptr<BipartiteGraph> G,
+    std::map<VertexPtr, unsigned int>& cost, std::map<VertexPtr, unsigned int> &index,
+    std::vector<std::vector<bool>> &edges) {
+
+    // VertexBookkeeping for maintaining propose pointer
+    // to know current proposing position in pref list 
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    int lb1 = 0;
+   
+    // for each resident find least cost hospital in its pref list
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        auto index_of_r = index[r];
+        auto& r_pref_list = r->get_preference_list();
+
+        int least_cost = INT_MAX;
+
+        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+        // while r hasn't exhausted its preference list
+        while (not bookkeep_data[r].is_exhausted()) {
+            //hospital in r's preflist
+            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+            auto index_of_h = index[h];
+
+            if (edges[index_of_r][index_of_h] == true) {
+                if (cost[h] < least_cost) {
+                    least_cost = cost[h];
+                }
+            }
+
+            //incrementing propose pointer of r
+            bookkeep_data[r].begin += 1;
+        }
+
+        if(least_cost != INT_MAX)lb1 += least_cost;
+    }
+    return lb1;
+}
+
+int LpApproxSMFQ::prune_graph(std::shared_ptr<BipartiteGraph> G,
+    std::map<VertexPtr, unsigned int>& cost, std::map<VertexPtr, unsigned int>& index,
+    std::vector<std::vector<bool>> edges, VertexPtr r, VertexPtr h) {
+
+    // VertexBookkeeping for maintaining propose pointer
+    // to know current proposing position in pref list 
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    auto index_of_r = index[r];
+    auto& r_pref_list = r->get_preference_list();
+
+    auto index_of_h = index[h];
+    auto& h_pref_list = h->get_preference_list();
+    
+    bookkeep_data[h] = VertexBookkeeping(0, h->get_preference_list().size());
+
+    // go through h's preference list
+    while (not bookkeep_data[h].is_exhausted()) {
+        //resident r1 in h's preflist
+        auto r1 = h_pref_list.at(bookkeep_data[h].begin).vertex;
+        auto index_of_r1 = index[r1];
+        auto& r1_pref_list = r1->get_preference_list();
+
+        // if r1 is r, stop the process
+        if (index_of_r1 == index_of_r) {
+            break;
+        }
+        // h prefers r1 over r
+        else {
+            bookkeep_data[r1] = VertexBookkeeping(0, r1->get_preference_list().size());
+            bool start_deleting = false;
+
+            // go through r1's preference list
+            while (not bookkeep_data[r1].is_exhausted()) {
+                //hospital h1 in r1's preflist
+                auto h1 = r1_pref_list.at(bookkeep_data[r1].begin).vertex;
+                auto index_of_h1 = index[h1];
+
+                // h1 is less preferred than h by r1
+                if (start_deleting) {
+                    // delete the  edge (r1, h1)
+                    edges[index_of_r1][index_of_h1] = false;
+                }
+
+                // if h is occurred in r1's preference list
+                // then all next hospitals are less preferred than h
+                if (index_of_h1 == index_of_h) {
+                    start_deleting = true;
+                }
+
+                //incrementing propose pointer of r
+                bookkeep_data[r1].begin += 1;
+            }
+        }
+
+        //incrementing propose pointer of h
+        bookkeep_data[h].begin += 1;
+    }
+
+    bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+    // go through r's preference list
+    while (not bookkeep_data[r].is_exhausted()) {
+        //hospital h1 in r's preflist
+        auto h1 = r_pref_list.at(bookkeep_data[r].begin).vertex;
+        auto index_of_h1 = index[h1];
+        auto& h1_pref_list = h1->get_preference_list();
+
+        // if h1 is h, stop the process
+        if (index_of_h1 == index_of_h) {
+            break;
+        }
+        // r prefers h1 over h
+        else {
+            bookkeep_data[h1] = VertexBookkeeping(0, h1->get_preference_list().size());
+            bool start_deleting = false;
+
+            // go through h1's preference list
+            while (not bookkeep_data[h1].is_exhausted()) {
+                //resident r1 in h1's preflist
+                auto r1 = h1_pref_list.at(bookkeep_data[h1].begin).vertex;
+                auto index_of_r1 = index[r1];
+
+                // r1 is less preferred than r by h1
+                if (start_deleting) {
+                    // delete the  edge (r1, h1)
+                    edges[index_of_r1][index_of_h1] = false;
+                }
+
+                // if r is occurred in h1's preference list
+                // then all next residents are less preferred than r
+                if (index_of_r1 == index_of_r) {
+                    start_deleting = true;
+                }
+
+                //incrementing propose pointer of r
+                bookkeep_data[h1].begin += 1;
+            }
+        }
+
+        //incrementing propose pointer of r
+        bookkeep_data[r].begin += 1;
+    }
+
+    // remove all other edges for r except h
+    bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+    // go through r's preference list
+    while (not bookkeep_data[r].is_exhausted()) {
+        //hospital h1 in r's preflist
+        auto h1 = r_pref_list.at(bookkeep_data[r].begin).vertex;
+        auto index_of_h1 = index[h1];
+        
+        // if h1 is h, stop the process
+        if (index_of_h1 == index_of_h) {
+            edges[index_of_r][index_of_h1] = true;
+        }
+        else {
+            edges[index_of_r][index_of_h1] = false;
+        }
+
+        //incrementing propose pointer of r
+        bookkeep_data[r].begin += 1;
+    }
+
+    // pruning is completed
+    // return lb1 of this pruned graph
+    return get_lower_bound1(G, cost, index, edges);
+}
+
+void LpApproxSMFQ::print_lower_bounds(std::shared_ptr<BipartiteGraph> G,
+    std::map<VertexPtr, unsigned int>& cost) {
+
+    unsigned int R, H;
+    R = G->get_A_partition().size();
+    H = G->get_B_partition().size();
+
+    // VertexBookkeeping for maintaining propose pointer
+    // to know current proposing position in pref list 
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    //to maintain indices of residents and hospitals
+    std::map<VertexPtr, unsigned int> index;
+
+    // to maintain edges of pruned graph for every tuple
+    std::vector<std::vector<bool>> edges(R, std::vector<bool>(H, false));
+
+    int index_count = 0;
+
+    // find indices of residents
+    for (auto& A1 : G->get_A_partition()) {
+        auto u = A1.second;
+        index[u] = index_count;
+        index_count++;
+    }
+
+    index_count = 0;
+
+    // find indices of hospitals
+    for (auto& it : G->get_B_partition()) {
+        auto v = it.second;
+        index[v] = index_count;
+        index_count++;
+    }
+
+    // fill edges adjacency matrix
+    // for each resident
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        auto index_of_r = index[r];
+        auto& r_pref_list = r->get_preference_list();
+
+        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+        // while r hasn't exhausted its preference list
+        while (not bookkeep_data[r].is_exhausted()) {
+            //hospital in r's preflist
+            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+            auto index_of_h = index[h];
+
+            edges[index_of_r][index_of_h] = true;
+               
+            //incrementing propose pointer of r
+            bookkeep_data[r].begin += 1;
+        }
+    }
+
+    // finding lb1 on initial graph
+    int lb1 = get_lower_bound1(G, cost, index, edges);
+    std::cout << " ,LB1 = " << lb1;
+
+    // finding lb2 on initial graph
+    int lb2 = 0;
+
+    // for each resident
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        auto index_of_r = index[r];
+        auto& r_pref_list = r->get_preference_list();
+
+        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+        int lb_of_r = INT_MAX;
+
+        // for each hospital in r's pref list
+        while (not bookkeep_data[r].is_exhausted()) {
+            //hospital in r's preflist
+            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+            auto index_of_h = index[h];
+
+            // prune graph for edge (r,h) 
+            // and find lb1 on pruned graph
+            int lb1_pruned_graph = prune_graph(G, cost, index, edges, r, h);
+
+            if (lb1_pruned_graph < lb_of_r) {
+                lb_of_r = lb1_pruned_graph;
+            }
+
+            //incrementing propose pointer of r
+            bookkeep_data[r].begin += 1;
+        }
+
+        if (lb_of_r > lb2) {
+            lb2 = lb_of_r;
+        }
+    }
+
+    std::cout << " ,LB2 = " << lb2;
 }
 
 // GCD of 'a' and 'b' 
@@ -172,7 +447,9 @@ int LpApproxSMFQ::find_costs(std::shared_ptr<BipartiteGraph> G,
     std::cout << " ,H = " << H;
     std::cout << " ,LR = " << LR;
     std::cout << " ,LH = " << LH;
-    std::cout << " ,UC = " << UC<<"\n\n";
+    std::cout << " ,UC = " << UC;
+    print_lower_bounds(G, cost);
+    std::cout << "\n\n";
     std::cout << "Output\n";
     std::cout << "Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev\n";
     return 1;
@@ -252,7 +529,9 @@ int LpApproxSMFQ::find_costs(std::shared_ptr<BipartiteGraph> G,
     std::cout << " ,H = " << H;
     std::cout << " ,LR = " << LR;
     std::cout << " ,LH = " << LH;
-    std::cout << " ,UC = " << UC << "\n\n";
+    std::cout << " ,UC = " << UC;
+    print_lower_bounds(G, cost);
+    std::cout << "\n\n";
     std::cout << "Output\n";
     std::cout << "Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev\n";
     return 1;

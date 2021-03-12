@@ -15,7 +15,8 @@ DirectApproachHR2LQ::DirectApproachHR2LQ(std::shared_ptr<BipartiteGraph> G,
 
 // runs floyd warshall alg and 
 // returns true if negative edge cycle is found
-bool DirectApproachHR2LQ::floyd_warshall(std::vector<std::vector<int>>& weight, int num_of_vertices) {
+bool DirectApproachHR2LQ::floyd_warshall(std::vector<std::vector<int>>& weight, int num_of_vertices,
+    std::vector<bool> &lower_quota_vertex) {
     for (int i = 0; i < num_of_vertices; i++) {
         for (int j = 0; j < num_of_vertices; j++) {
             for (int k = 0; k < num_of_vertices; k++) {
@@ -31,8 +32,13 @@ bool DirectApproachHR2LQ::floyd_warshall(std::vector<std::vector<int>>& weight, 
 
     // checking for cycle
     for (int i = 0; i < num_of_vertices; i++) {
-        if (weight[i][i] < 0) {
-            return true;
+        if (lower_quota_vertex[i])continue;
+        for (int j = 0; j < num_of_vertices; j++) {
+            if (lower_quota_vertex[j])continue;
+            if (weight[i][j] < 0) {
+                std::cout << i << " , " << j << "\n";
+                return true;
+            }
         }
     }
     return false;
@@ -100,7 +106,7 @@ bool DirectApproachHR2LQ::bellman_ford(std::shared_ptr<BipartiteGraph> G,
     }
 
     // check for negative cycle
-    //for each edge
+    // for each edge
     for (auto& it : G->get_A_partition()) {
         //resident
         auto r = it.second;
@@ -150,6 +156,9 @@ bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
     //to maintain indices of residents and hospitals
     std::map<VertexPtr, int> index;
 
+    // to mark lower quota vertices
+    std::vector<bool> lower_quota_vertex(num_of_vertices, false);
+
     // to maintain weights of edges
     std::vector<std::vector<int>> weight(num_of_vertices, std::vector<int>(num_of_vertices, INT_MAX));
     
@@ -160,6 +169,9 @@ bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
         auto r = it.second;
         index[r] = index_count;
         weight[index[r]][index[r]] = 0;
+        if (r->get_lower_quota() > 0) {
+            lower_quota_vertex[index[r]] = true;
+        }
         index_count++;
     }
     
@@ -168,6 +180,9 @@ bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
         auto h = it.second;
         index[h] = index_count;
         weight[index[h]][index[h]] = 0;
+        if (h->get_lower_quota() > 0) {
+            lower_quota_vertex[index[h]] = true;
+        }
         index_count++;
     }
     
@@ -254,7 +269,7 @@ bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
         return false;
     }
     // call floyd warshall algo to check -ve edge cycle
-    if (floyd_warshall(weight, num_of_vertices)) {
+    if (floyd_warshall(weight, num_of_vertices, lower_quota_vertex)) {
         std::cout << "negative edge cycle found in floyd warshall\n";
         return false;
     }
@@ -287,6 +302,7 @@ bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::Mat
         // if v is deficient and not present in free list(queue)
         if (number_of_partners(M, v) < v->get_lower_quota()) {
             if (bookkeep_data[v].in_free_list == false) {
+                //std::cout <<v->get_id()<< " added to free list 1\n";
                 // add it to free list
                 bookkeep_data[v].in_free_list = true;
                 free_list.push(v);
@@ -328,8 +344,11 @@ bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::Mat
                     add_partner(M, u, v, compute_rank(v, u_pref_list), 0);
                     add_partner(M, v, u, compute_rank(u, v_pref_list), bookkeep_data[u].level);
 
+                    //std::cout << v->get_id() << " matched to " << u->get_id() << "\n";
+
                     // add v_partner to free_list if it is not already present
                     if (bookkeep_data[v_partner.vertex].in_free_list == false) {
+                        //std::cout << v_partner.vertex->get_id() << " added to free list 2\n";
                         // add it to free list
                         bookkeep_data[v_partner.vertex].in_free_list = true;
                         free_list.push(v_partner.vertex);
@@ -338,6 +357,7 @@ bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::Mat
                 // if v doesnt prefer u
                 else {
                     // add u to free list
+                    //std::cout << u->get_id() << " added to free list 3\n";
                     bookkeep_data[u].in_free_list = true;
                     free_list.push(u);
                 }
@@ -347,6 +367,7 @@ bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::Mat
                 // add v and u to the matching
                 add_partner(M, u, v, compute_rank(v, u_pref_list), 0);
                 add_partner(M, v, u, compute_rank(u, v_pref_list), bookkeep_data[u].level);
+                //std::cout << v->get_id() << " matched to " << u->get_id() << "\n";
             }
             // if u has vacancies and its level is 0
             if (bookkeep_data[u].level == 0 && number_of_partners(M, u) < u->get_upper_quota()) {
@@ -357,8 +378,9 @@ bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::Mat
                 }
             }
             // if u is deficient
-            else if (u->get_lower_quota() > 0 && number_of_partners(M, u) < u->get_lower_quota()) {
+            if (u->get_lower_quota() > 0 && number_of_partners(M, u) < u->get_lower_quota()) {
                 if (bookkeep_data[u].in_free_list == false) {
+                    //std::cout << u->get_id() << " added to free list 4\n";
                     // add it to free list
                     bookkeep_data[u].in_free_list = true;
                     free_list.push(u);
@@ -376,6 +398,7 @@ bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::Mat
             bookkeep_data[u].begin = 0;
             // add it to free list
             bookkeep_data[u].in_free_list = true;
+            //std::cout << u->get_id() << " added to free list 5 with level "<< bookkeep_data[u].level <<"\n";
             free_list.push(u);
         }
 
@@ -400,19 +423,86 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> DirectApproachHR2LQ::com
     StableMarriage alg(G, false);
     auto M = alg.compute_matching();
 
+    std::cout << "Stable matching\n";
+    print_matching(G, M, std::cout);
+
     // hospital proposing phase
     if (!level_proposing(M, G->get_B_partition())) {
         std::cout << "Feasible matching not possible\n";
     }
+
+    std::cout << "matching after hospital prop\n";
+    print_matching(G, M, std::cout);
 
     // resident proposing phase
     if (!level_proposing(M, G->get_A_partition())) {
         std::cout << "Feasible matching not possible\n";
     }
     
+    std::cout << "matching after res prop\n";
+    print_matching(G, M, std::cout);
+
+
+
     if (!is_popular(G, M)) {
         std::cout << "Not popular\n";
     }
 
+    /*
+    // VertexBookkeeping for maintaining propose pointer and level of proposing vertices
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+    auto N = std::make_shared<MatchingAlgorithm::MatchedPairListType>();
+
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        auto& r_pref_list = r->get_preference_list();
+        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+        // while r hasn't exhausted its preference list
+        while (not bookkeep_data[r].is_exhausted()) {
+            //hospital in r's preflist
+            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+            auto h_pref_list = h->get_preference_list();
+
+            if (r->get_id() == "r1" && h->get_id() == "h5") {
+                // add r and h to the matching
+                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
+                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
+                break;
+            }
+            if (r->get_id() == "r2" && h->get_id() == "h3") {
+                // add r and h to the matching
+                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
+                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
+                break;
+            }
+            if (r->get_id() == "r3" && h->get_id() == "h2") {
+                // add r and h to the matching
+                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
+                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
+                break;
+            }
+            if (r->get_id() == "r4" && h->get_id() == "h1") {
+                // add r and h to the matching
+                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
+                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
+                break;
+            }
+            if (r->get_id() == "r5" && h->get_id() == "h4") {
+                // add r and h to the matching
+                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
+                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
+                break;
+            }
+            //incrementing propose pointer of r
+            bookkeep_data[r].begin += 1;
+        }
+    }
+    std::cout << "-----------------------------\n";
+    print_matching(G, N, std::cout);
+    if (!is_popular(G, N)) {
+        std::cout << "Not popular\n";
+    }*/
     return M;
 }

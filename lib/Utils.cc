@@ -34,6 +34,12 @@ const char* token_to_string(Token tok) {
    return "UNKNOWN";
 }
 
+bool is_number(const std::string& s) {
+    for (int i = 0; i < s.length(); i++)
+        if (s[i] < '0' || s[i] > '9')return false;
+    return true;
+}
+
 int to_integer(const std::string& s) {
     return (int) std::strtol(s.c_str(), nullptr, 10);
 }

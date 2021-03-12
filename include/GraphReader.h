@@ -57,6 +57,8 @@ private:
     std::unique_ptr<Lexer> lexer_;
     Token curtok_;
 
+    bool error_occurred = false;
+
     void consume();
     void match(Token expected);
     const char* error_message(const char* prefix, Token got, const std::vector<Token>& expected);

@@ -439,7 +439,7 @@ bool Exact_Exponential_SMFQ::find_valid_tuples(std::shared_ptr<BipartiteGraph> G
     if (present_index < 0) {
         // reverse temp_tuple
         std::reverse(temp_tuple.begin(), temp_tuple.end());
-        /*
+        
         std::cout << "------------------------- New Tuple \n";
         unsigned int tuple_cost = 0;
         for (int i = 0; i < temp_tuple.size(); i++) {
@@ -447,7 +447,7 @@ bool Exact_Exponential_SMFQ::find_valid_tuples(std::shared_ptr<BipartiteGraph> G
             tuple_cost += temp_tuple[i];
         }
         std::cout << "cost = " << tuple_cost << "\n------------------------------------------\n";
-        */
+        
         if (find_matching_for_tuple(G, M, index, edges, cost, temp_tuple)) {
             return true;
         }
@@ -556,8 +556,9 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> Exact_Exponential_SMFQ::
 
         // if last row ith column is not empty
         // then there is atleast one valid tuple for the cost i
-        if (cost_matrix[R - 1][i].size() > 0) {
-            //std::cout << "----------------- New Cost " << i << " ------------------\n";
+        if (cost_matrix[R - 1][i].size() > 0 && i >= 151) {
+            std::cout << "----------------- New Cost " << i << " ------------------\n";
+            std::cout << "----------------- Max Cost " << max_cost_possible << " ------------------\n";
             // test all possible tuples of cost i
             // if any tuple gives a R-perfect matching, stop the process
             if (find_valid_tuples(G, M, index, edges, cost, cost_matrix, R - 1, i, temp_tuple)) {

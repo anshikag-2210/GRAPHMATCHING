@@ -3,6 +3,7 @@
 #include "PreferenceList.h"
 #include "Utils.h"
 #include <cstdlib>
+#include <iostream>
 #include <stdexcept>
 
 /// Lexer class defined here
@@ -119,6 +120,13 @@ void GraphReader::read_partition(BipartiteGraph::ContainerType& vmap) {
     // read the vertices in the partion
     while (curtok_ != TOK_SEMICOLON) {
         std::string v = lexer_->get_lexeme();
+
+        // if there is already a vertex with id v
+        if (vmap.find(v) != vmap.end()) {
+            error_occurred = true;
+            std::cout <<"Line " <<lexer_->line_number() <<": Duplicate vertex : "<<v<<"\n";
+        }
+
         int lower_quota = 0, upper_quota = 1;
         match(TOK_STRING);
 
@@ -127,6 +135,12 @@ void GraphReader::read_partition(BipartiteGraph::ContainerType& vmap) {
         if (curtok_ == TOK_LEFT_BRACE) {
             // eat '('
             match(TOK_LEFT_BRACE);
+
+            // if quota is not given as positive integer or 0
+            if (!is_number(lexer_->get_lexeme())) {
+                error_occurred = true;
+                std::cout << "Line " << lexer_->line_number() << ": Expected number for quota for vertex : " << v << "\n";
+            }
 
             // read the upper quota
             upper_quota = to_integer(lexer_->get_lexeme());
@@ -138,12 +152,24 @@ void GraphReader::read_partition(BipartiteGraph::ContainerType& vmap) {
 
                 // the quota read first was the lower quota
                 lower_quota = upper_quota;
+
+                // if quota is not given as positive integer or 0
+                if (!is_number(lexer_->get_lexeme())) {
+                    std::cout << "Line " << lexer_->line_number() << ": Expected number for quota for vertex : " << v << "\n";
+                }
+
                 upper_quota = to_integer(lexer_->get_lexeme());
                 match(TOK_STRING);
             }
 
             // eat ')'
             match(TOK_RIGHT_BRACE);
+        }
+
+        // if lower quota is greater than upper quota
+        if (lower_quota > upper_quota) {
+            error_occurred = true;
+            std::cout << "Line " << lexer_->line_number() << ": Lower quota cannot greater than Upper quota for vertex " << v << "\n";
         }
 
         // add this vertex with the required quotas
@@ -176,6 +202,23 @@ void GraphReader::read_preference_lists(BipartiteGraph::ContainerType& A, Bipart
     while (curtok_ != TOK_AT) {
         // read the vertex for which the preference list is given
         std::string a = lexer_->get_lexeme();
+
+        // if there is no vertex with that id 
+        if (A.find(a) == A.end()) {
+            error_occurred = true;
+            std::cout << "Line " << lexer_->line_number() << ": Vertex not found: " << a << "\n";
+
+            match(TOK_STRING);
+            match(TOK_COLON);
+
+            while (curtok_ != TOK_SEMICOLON && curtok_ != TOK_EOF) {
+                consume();
+            }
+            if (curtok_ == TOK_EOF)return;
+            match(TOK_SEMICOLON);
+            continue;
+        }
+
         match(TOK_STRING);
         match(TOK_COLON); // skip the colon
 
@@ -184,6 +227,24 @@ void GraphReader::read_preference_lists(BipartiteGraph::ContainerType& A, Bipart
         while (curtok_ != TOK_SEMICOLON) {
             std::string b = lexer_->get_lexeme();
             match(TOK_STRING);
+
+            // if there is no vertex with that id 
+            if (B.find(b) == B.end()) {
+                error_occurred = true;
+                std::cout << "Line " << lexer_->line_number() << ": Vertex not found: " << b << "\n";
+
+                if (curtok_ != TOK_SEMICOLON) {
+                    match(TOK_COMMA);
+                }
+                continue;
+            }
+
+            // if b is already present in a's pref list
+            if (pref_list.find(B[b]) != pref_list.cend()) {
+                error_occurred = true;
+                std::cout << "Line " << lexer_->line_number() << ": Vertex " << b << " is inserted multiple times in " << a << "'s preference list\n";
+            }
+
             pref_list.emplace_back(B[b]);
 
             // if there are more vertices, they must
@@ -228,7 +289,7 @@ void GraphReader::handle_preference_lists(BipartiteGraph::ContainerType& A, Bipa
 
 std::shared_ptr<BipartiteGraph> GraphReader::read_graph() {
     BipartiteGraph::ContainerType A, B;
-
+    
     // read the partitions
     match(TOK_AT);
     Token partition = curtok_;
@@ -255,6 +316,10 @@ std::shared_ptr<BipartiteGraph> GraphReader::read_graph() {
     } else {
         throw ReaderException(error_message("duplicate preference listing", curtok_,
                                             {(pref_lists == TOK_PREF_LISTS_A) ? TOK_PREF_LISTS_B : TOK_PREF_LISTS_A}));
+    }
+
+    if (error_occurred) {
+        return NULL;
     }
 
     return std::make_shared<BipartiteGraph>(A, B);

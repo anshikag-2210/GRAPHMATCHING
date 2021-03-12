@@ -15,6 +15,14 @@ public:
     ~LpApproxSMFQ() override = default;
     bool is_envy_free(std::shared_ptr<BipartiteGraph> G,
         std::shared_ptr<MatchingAlgorithm::MatchedPairListType> M);
+    int get_lower_bound1(std::shared_ptr<BipartiteGraph> G,
+        std::map<VertexPtr, unsigned int>& cost, std::map<VertexPtr, unsigned int>& index,
+        std::vector<std::vector<bool>>& edges);
+    int prune_graph(std::shared_ptr<BipartiteGraph> G,
+        std::map<VertexPtr, unsigned int>& cost, std::map<VertexPtr, unsigned int>& index,
+        std::vector<std::vector<bool>> edges, VertexPtr r, VertexPtr h);
+    void print_lower_bounds(std::shared_ptr<BipartiteGraph> G,
+        std::map<VertexPtr, unsigned int>& cost);
     int gcd(int a, int b);
     int find_costs(std::shared_ptr<BipartiteGraph> G,
         std::map<VertexPtr, unsigned int>& cost,
