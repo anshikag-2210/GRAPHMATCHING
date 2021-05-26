@@ -4,6 +4,8 @@
 #include "MatchingAlgorithm.h"
 #include "PreferenceList.h"
 #include "VertexBookkeeping.h"
+#include "Graph.h"
+#include "BipartiteGraph.h"
 #include <queue>
 #include <ostream>
 
@@ -25,6 +27,15 @@ public:
         const BipartiteGraph::ContainerType& proposing_partition);
     bool is_popular(std::shared_ptr<BipartiteGraph> G,
         std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M);
+    IdType get_node_name(IdType id1, IdType id2, IdType id3);
+    void generate_brandl_kavitha_graph(std::shared_ptr<BipartiteGraph> G,
+        std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M);
+    
+    static bool compare(std::vector<int> A, std::vector<int> B);
+    std::shared_ptr<BipartiteGraph> reduce_partition_to_SM(BipartiteGraph::ContainerType A,
+        BipartiteGraph::ContainerType B, bool is_R_phase);
+    std::shared_ptr<BipartiteGraph> get_reduced_graph();
+    
     std::shared_ptr<MatchedPairListType> compute_matching() override;
 };
 

@@ -1,11 +1,11 @@
 Input Parameters
-R = 7 ,H = 3 ,LR = 3 ,LH = 6 ,UC = 3 ,LB1 = 10 ,LB2 = 15
+R = 7 ,H = 3 ,LR = 3 ,LH = 6 ,UC = 3 ,LB1 = 10 ,LB2 = 15 ,MINMAX_LB = 9
 
 Output
 Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev
 SM,7,15,7,0,0,0
 Lp-approx,7,15,7,0,0,0
-Exact Exp,7,15,7,0,0,0
+H Approx,7,17,5,2,2,1
 
 Additional output
 Hospital, h1, h2, h3
@@ -13,7 +13,7 @@ Capacity, 20, 10, 1
 Cost, 1, 2, 3
 SM, 0, 6, 1
 Lp-approx, 0, 6, 1
-Exact Exp, 0, 6, 1
+H Approx, 0, 4, 3
 
 Stable Matching
 r1,h2,1
@@ -33,11 +33,11 @@ r5,h2,1
 r6,h2,1
 r7,h3,1
 
-Exact Exp Matching
+H_Approx Matching
 r1,h2,1
 r2,h2,1
 r3,h2,1
-r4,h2,1
-r5,h2,1
+r4,h3,2
+r5,h3,2
 r6,h2,1
 r7,h3,1

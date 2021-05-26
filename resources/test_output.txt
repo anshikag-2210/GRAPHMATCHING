@@ -1,3 +1,0 @@
-Line 5: Expected number for quota for vertex : h1
-Line 5: Lower quota cannot greater than Upper quota for vertex h1
-Line 9: Vertex h1 is inserted multiple times in r1's preference list

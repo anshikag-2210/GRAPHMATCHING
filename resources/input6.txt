@@ -1,0 +1,25 @@
+@PartitionA
+r1 (0, 1), r2 (0, 1), r3 (1, 1), r4 (1, 1), r5 (0, 1);
+@End
+
+@PartitionB
+h1 (1, 1), h2 (1, 1), h3 (0, 1), h4 (0, 1), h5 (0, 1), h6 (1, 1), h7 (0, 1);
+@End
+
+@PreferenceListsA
+r1: h4, h2, h1;
+r2: h5, h2, h6, h1;
+r3: h3, h2;
+r4: h3;
+r5: h7, h6;
+@End
+
+@PreferenceListsB
+h1: r1, r2;
+h2: r1, r2, r3;
+h3: r3, r4;
+h4: r1;
+h5: r2;
+h6: r2, r5;
+h7: r5;         
+@End

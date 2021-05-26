@@ -40,6 +40,10 @@ unsigned Vertex::get_upper_quota() const {
     return upper_quota_;
 }
 
+void Vertex::set_upper_quota(unsigned upper_quota) {
+    upper_quota_ = upper_quota;
+}
+
 bool Vertex::is_dummy() const {
     return dummy_;
 }

@@ -1,0 +1,60 @@
+Reduced graph A partition
+(0,1) h3_dummy_0 : h3_level_0 , h3_level_1 ,  
+(0,1) r1_level_0 : h3_level_1 , h1 , h3_level_0 , r1_dummy_0 ,  
+(0,1) r1_level_1 : r1_dummy_0 , h3_level_1 , h1 , h3_level_0 , r1_dummy_1 ,  
+(0,1) r1_level_2 : r1_dummy_1 , h3_level_1 , h1 , h3_level_0 , r1_dummy_2 ,  
+(0,1) r1_level_3 : r1_dummy_2 , h3_level_1 , h1 , h3_level_0 ,  
+(0,1) r2_level_0 : h3_level_1 , h2 , h3_level_0 , r2_dummy_0 ,  
+(0,1) r2_level_1 : r2_dummy_0 , h3_level_1 , h2 , h3_level_0 , r2_dummy_1 ,  
+(0,1) r2_level_2 : r2_dummy_1 , h3_level_1 , h2 , h3_level_0 , r2_dummy_2 ,  
+(0,1) r2_level_3 : r2_dummy_2 , h3_level_1 , h2 , h3_level_0 ,  
+(0,1) r3 : h1 ,  
+(0,1) r4_level_0 : h2 , r4_dummy_0 ,  
+(0,1) r4_level_1 : r4_dummy_0 , h2 , r4_dummy_1 ,  
+(0,1) r4_level_2 : r4_dummy_1 , h2 , r4_dummy_2 ,  
+(0,1) r4_level_3 : r4_dummy_2 , h2 ,  
+
+Reduced graph B partition
+(0,1) h1 : r1_level_3 , r1_level_2 , r1_level_1 , r1_level_0 , r3 ,  
+(0,1) h2 : r2_level_3 , r4_level_3 , r2_level_2 , r4_level_2 , r2_level_1 , r4_level_1 , r2_level_0 , r4_level_0 ,  
+(0,1) h3_level_0 : r1_level_3 , r2_level_3 , r1_level_2 , r2_level_2 , r1_level_1 , r2_level_1 , r1_level_0 , r2_level_0 , h3_dummy_0 ,  
+(0,1) h3_level_1 : r1_level_3 , r2_level_3 , r1_level_2 , r2_level_2 , r1_level_1 , r2_level_1 , h3_dummy_0 , r1_level_0 , r2_level_0 ,  
+(0,1) r1_dummy_0 : r1_level_0 , r1_level_1 ,  
+(0,1) r1_dummy_1 : r1_level_1 , r1_level_2 ,  
+(0,1) r1_dummy_2 : r1_level_2 , r1_level_3 ,  
+(0,1) r2_dummy_0 : r2_level_0 , r2_level_1 ,  
+(0,1) r2_dummy_1 : r2_level_1 , r2_level_2 ,  
+(0,1) r2_dummy_2 : r2_level_2 , r2_level_3 ,  
+(0,1) r4_dummy_0 : r4_level_0 , r4_level_1 ,  
+(0,1) r4_dummy_1 : r4_level_1 , r4_level_2 ,  
+(0,1) r4_dummy_2 : r4_level_2 , r4_level_3 ,  
+
+Stable matching
+h3_dummy_0,h3_level_1,2
+r1_level_0,h1,2
+r1_level_1,r1_dummy_0,1
+r1_level_2,r1_dummy_1,1
+r1_level_3,r1_dummy_2,1
+r2_level_0,h3_level_0,3
+r2_level_1,r2_dummy_0,1
+r2_level_2,r2_dummy_1,1
+r2_level_3,r2_dummy_2,1
+r4_level_0,r4_dummy_0,2
+r4_level_1,r4_dummy_1,3
+r4_level_2,r4_dummy_2,3
+r4_level_3,h2,2
+
+Brandl - Kavitha Graph
+r1_copy_1,h1_copy_1,0,1
+r2_copy_1,h3_copy_1,0,1
+r4_copy_1,h2_copy_1,0,1
+r3_copy_1,r3_dummy_1,0,1
+h1_copy_1,h1_dummy_1,-1,0
+h2_copy_1,h2_dummy_1,-1,0
+r1_copy_1,h3_copy_1,0,0
+r2_copy_1,h2_copy_1,2,0
+r3_copy_1,h1_copy_1,0,0
+Final Matching----------------------------------------
+r1,h1,3
+r2,h3,3
+r4,h2,2

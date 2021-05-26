@@ -30,6 +30,7 @@ public:
     const IdType& get_cloned_for_id() const;
     unsigned get_lower_quota() const;
     unsigned get_upper_quota() const;
+    void set_upper_quota(unsigned upper_quota);
     bool is_dummy() const;
 
     PreferenceList& get_preference_list();

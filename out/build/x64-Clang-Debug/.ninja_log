@@ -1,12 +1,8 @@
 # ninja log v5
-34	3003	622799023	lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj	9450e56bd65d2473
-29	3034	622799024	lib/CMakeFiles/graph.dir/MatchingAlgorithm.cc.obj	cf16b4523656c8d5
-24	3073	622799024	lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj	b1f3a2f6f5cd1e10
-40	3095	622799024	lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj	1e8daf563a01bf57
 37	2593	623187565	lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj	9450e56bd65d2473
+23	2839	623187597	lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj	b354c0396c21311e
 25	2598	623187565	lib/CMakeFiles/graph.dir/MatchingAlgorithm.cc.obj	cf16b4523656c8d5
 30	2659	623187565	lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj	b1f3a2f6f5cd1e10
 20	2785	623187565	lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj	1e8daf563a01bf57
-17	2233	623187597	lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj	9cdddd14814b2fb8
 12	2345	623187597	lib/CMakeFiles/graph.dir/RHeuristicHRLQ.cc.obj	6c639cb048a58d4b
-23	2839	623187597	lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj	b354c0396c21311e
+17	2233	623187597	lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj	9cdddd14814b2fb8

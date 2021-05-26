@@ -7,4 +7,5 @@ add_library(graph
                 BipartiteGraph.cc Partner.cc PartnerList.cc PreferenceList.cc Vertex.cc
                 GraphReader.cc Utils.cc 
                 RelaxedStable.cc Statistics.cc SEAPopularHRLQ.cc 
-                LpApproxSMFQ.cc Exact_Exponential_SMFQ.cc DirectApproachHR2LQ.cc)
+                LpApproxSMFQ.cc Exact_Exponential_SMFQ.cc DirectApproachHR2LQ.cc
+                Node.cc Edge.cc Graph.cc HApproxSMFQ.cc)

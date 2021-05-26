@@ -5,6 +5,11 @@
       "taskLabel": "task-GraphMatching",
       "appliesTo": "/",
       "type": "launch"
+    },
+    {
+      "taskLabel": "task-GraphMatching",
+      "appliesTo": "/",
+      "type": "launch"
     }
   ]
 }

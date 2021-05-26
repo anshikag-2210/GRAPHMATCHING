@@ -1,4 +1,5 @@
 #include "LpApproxSMFQ.h"
+#include "HApproxSMFQ.h"
 #include "Exact_Exponential_SMFQ.h"
 #include "Vertex.h"
 #include "Partner.h"
@@ -531,11 +532,9 @@ int LpApproxSMFQ::find_costs(std::shared_ptr<BipartiteGraph> G,
     std::cout << " ,LH = " << LH;
     std::cout << " ,UC = " << UC;
     print_lower_bounds(G, cost);
-    std::cout << "\n\n";
-    std::cout << "Output\n";
-    std::cout << "Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev\n";
     return 1;
 }
+
 
 std::shared_ptr<MatchingAlgorithm::MatchedPairListType> LpApproxSMFQ::compute_matching() {
     
@@ -559,6 +558,18 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> LpApproxSMFQ::compute_ma
     if (!find_costs(G, cost, additional_output)) {
         return M;
     }
+
+    unsigned int min_max_lb = 0;
+    //find H approx matching
+    HApproxSMFQ alg1(G, true);
+    auto Mh = alg1.compute_matching1(min_max_lb);
+    std::cout << " ,MINMAX_LB = " << min_max_lb;
+
+    // printing output heading
+    std::cout << "\n\n";
+    std::cout << "Output\n";
+    std::cout << "Algo, Size, Cost, Rank1, Rank2, Max-Dev, Avg-Dev\n";
+
     additional_output_names.push_back("Capacity");
     additional_output_names.push_back("Cost");
 
@@ -653,12 +664,18 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> LpApproxSMFQ::compute_ma
     s.get_smfq_statistics(G, M, Ms, "Lp-approx", cost, additional_output);
     additional_output_names.push_back("Lp-approx");
 
+    /*
     //find exact exponential matching
     Exact_Exponential_SMFQ alg1(G, true);
     auto Me = alg1.compute_matching();
     // print exact exponential matching statistics
     s.get_smfq_statistics(G, Me, Ms, "Exact Exp", cost, additional_output);
     additional_output_names.push_back("Exact Exp");
+    */
+
+    // print H Appx matching statistics
+    s.get_smfq_statistics(G, Mh, Ms, "H Approx", cost, additional_output);
+    additional_output_names.push_back("H Approx");
 
     //printing additional outputs
     print_additional_output(G, additional_output, additional_output_names);
@@ -676,11 +693,19 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> LpApproxSMFQ::compute_ma
     }
     print_matching(G, M, std::cout);
 
+    /*
     std::cout << "\nExact Exp Matching\n";
     if (!is_envy_free(G, Me)) {
         std::cout << "Not Envy Free\n";
     }
     print_matching(G, Me, std::cout);
+    */
+
+    std::cout << "\nH_Approx Matching\n";
+    if (!is_envy_free(G, Mh)) {
+        std::cout << "Not Envy Free\n";
+    }
+    print_matching(G, Mh, std::cout);
 
     return M;
 }

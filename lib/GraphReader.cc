@@ -91,6 +91,8 @@ void GraphReader::consume() {
 
 void GraphReader::match(Token expected) {
     if (curtok_ != expected) {
+       //std::cout << "Line " << lexer_->line_number() << error_message("invalid data in file", curtok_, { expected }) << "\n";
+       //consume();
        throw ReaderException(error_message("invalid data in file", curtok_, {expected}));
     } else {
         consume(); // skip the token

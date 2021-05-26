@@ -274,6 +274,34 @@ build lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj: CXX_COMPILER__graph_ 
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
 
+build lib/CMakeFiles/graph.dir/Node.cc.obj: CXX_COMPILER__graph_ ../lib/Node.cc || cmake_object_order_depends_target_graph
+  DEP_FILE = lib\CMakeFiles\graph.dir\Node.cc.obj.d
+  FLAGS = -Wall -O0 -g -std=gnu++1z
+  INCLUDES = -I../include -I../lib/include
+  OBJECT_DIR = lib\CMakeFiles\graph.dir
+  OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
+
+build lib/CMakeFiles/graph.dir/Edge.cc.obj: CXX_COMPILER__graph_ ../lib/Edge.cc || cmake_object_order_depends_target_graph
+  DEP_FILE = lib\CMakeFiles\graph.dir\Edge.cc.obj.d
+  FLAGS = -Wall -O0 -g -std=gnu++1z
+  INCLUDES = -I../include -I../lib/include
+  OBJECT_DIR = lib\CMakeFiles\graph.dir
+  OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
+
+build lib/CMakeFiles/graph.dir/Graph.cc.obj: CXX_COMPILER__graph_ ../lib/Graph.cc || cmake_object_order_depends_target_graph
+  DEP_FILE = lib\CMakeFiles\graph.dir\Graph.cc.obj.d
+  FLAGS = -Wall -O0 -g -std=gnu++1z
+  INCLUDES = -I../include -I../lib/include
+  OBJECT_DIR = lib\CMakeFiles\graph.dir
+  OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
+
+build lib/CMakeFiles/graph.dir/HApproxSMFQ.cc.obj: CXX_COMPILER__graph_ ../lib/HApproxSMFQ.cc || cmake_object_order_depends_target_graph
+  DEP_FILE = lib\CMakeFiles\graph.dir\HApproxSMFQ.cc.obj.d
+  FLAGS = -Wall -O0 -g -std=gnu++1z
+  INCLUDES = -I../include -I../lib/include
+  OBJECT_DIR = lib\CMakeFiles\graph.dir
+  OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target graph
@@ -282,7 +310,7 @@ build lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj: CXX_COMPILER__graph_ 
 #############################################
 # Link the static library lib\libgraph.a
 
-build lib/libgraph.a: CXX_STATIC_LIBRARY_LINKER__graph_ lib/CMakeFiles/graph.dir/MatchingAlgorithm.cc.obj lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/RHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj lib/CMakeFiles/graph.dir/Partner.cc.obj lib/CMakeFiles/graph.dir/PartnerList.cc.obj lib/CMakeFiles/graph.dir/PreferenceList.cc.obj lib/CMakeFiles/graph.dir/Vertex.cc.obj lib/CMakeFiles/graph.dir/GraphReader.cc.obj lib/CMakeFiles/graph.dir/Utils.cc.obj lib/CMakeFiles/graph.dir/RelaxedStable.cc.obj lib/CMakeFiles/graph.dir/Statistics.cc.obj lib/CMakeFiles/graph.dir/SEAPopularHRLQ.cc.obj lib/CMakeFiles/graph.dir/LpApproxSMFQ.cc.obj lib/CMakeFiles/graph.dir/Exact_Exponential_SMFQ.cc.obj lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj
+build lib/libgraph.a: CXX_STATIC_LIBRARY_LINKER__graph_ lib/CMakeFiles/graph.dir/MatchingAlgorithm.cc.obj lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/RHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj lib/CMakeFiles/graph.dir/Partner.cc.obj lib/CMakeFiles/graph.dir/PartnerList.cc.obj lib/CMakeFiles/graph.dir/PreferenceList.cc.obj lib/CMakeFiles/graph.dir/Vertex.cc.obj lib/CMakeFiles/graph.dir/GraphReader.cc.obj lib/CMakeFiles/graph.dir/Utils.cc.obj lib/CMakeFiles/graph.dir/RelaxedStable.cc.obj lib/CMakeFiles/graph.dir/Statistics.cc.obj lib/CMakeFiles/graph.dir/SEAPopularHRLQ.cc.obj lib/CMakeFiles/graph.dir/LpApproxSMFQ.cc.obj lib/CMakeFiles/graph.dir/Exact_Exponential_SMFQ.cc.obj lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj lib/CMakeFiles/graph.dir/Node.cc.obj lib/CMakeFiles/graph.dir/Edge.cc.obj lib/CMakeFiles/graph.dir/Graph.cc.obj lib/CMakeFiles/graph.dir/HApproxSMFQ.cc.obj
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

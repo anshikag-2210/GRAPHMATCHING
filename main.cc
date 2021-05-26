@@ -46,7 +46,7 @@ void compute_matching(bool A_proposing, const char* input_file, const char* outp
     //s.get_statistics(G, M);
     //s.get_smfq_statistics(G, M);
     //std::cout << "Final Matching----------------------------------------\n";
-    print_matching(G, M, std::cout);
+    //print_matching(G, M, std::cout);
 
     // restore buffers
     std::cin.rdbuf(cin_buf);
