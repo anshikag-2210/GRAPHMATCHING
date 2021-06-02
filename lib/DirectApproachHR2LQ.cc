@@ -708,7 +708,7 @@ bool DirectApproachHR2LQ::compare(std::vector<int> A, std::vector<int> B) {
     else return (A[1] < B[1]);
 }
 
-
+/*
 // make partition A as SM partition
 std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(BipartiteGraph::ContainerType A,
     BipartiteGraph::ContainerType B, bool is_R_phase) {
@@ -847,6 +847,219 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(Bipa
         for (int i = 0; i < to_sort.size(); i++) {
             int pos = to_sort[i][2];
             new_pref_list.emplace_back(vertices[pos]);
+        }
+    }
+
+    if (is_R_phase) {
+        return std::make_shared<BipartiteGraph>(A_new, B_new);
+    }
+    else {
+        return std::make_shared<BipartiteGraph>(B_new, A_new);
+    }
+}
+*/
+
+// make partition A as SM partition
+std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(BipartiteGraph::ContainerType A,
+    BipartiteGraph::ContainerType B, bool is_R_phase) {
+
+    //partitions of new graph
+    BipartiteGraph::ContainerType A_new, B_new;
+
+    // to store copy vertices of each vertex
+    std::map<VertexPtr, std::vector<VertexPtr>> copy_vertices;
+
+    // VertexBookkeeping for maintaining propose pointer and level of proposing vertices
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    int sum_of_lq = 0;
+    //find sum of lower quotas of partiton A
+    for (auto& A1 : A) {
+        auto u = A1.second;
+        sum_of_lq += u->get_lower_quota();
+    }
+
+    // create replicates of vertices in B partition
+    // and add them in new B partition for new graph
+    // as their pref lists will be changed
+    for (auto& B1 : B) {
+        auto u = B1.second;
+        B_new.emplace(u->get_id(), std::make_shared<Vertex>(u->get_id(), u->get_cloned_for_id(), u->get_lower_quota(), u->get_upper_quota(), u->is_dummy()));
+    }
+
+    // for each vertex in A partition
+    for (auto& A1 : A) {
+        //vertex
+        auto u = A1.second;
+        auto& u_pref_list = u->get_preference_list();
+
+        // if u is a non-lq vertex,
+        // replicate this vertex with same order in its pref list
+        if (u->get_lower_quota() == 0) {
+            A_new.emplace(u->get_id(), std::make_shared<Vertex>(u->get_id(), u->get_cloned_for_id(), u->get_lower_quota(), u->get_upper_quota(), u->is_dummy()));
+            PreferenceList& pref_list = A_new[u->get_id()]->get_preference_list();
+            // add vertices in preflist order to preflist of copy of that new vertex
+            bookkeep_data[u] = VertexBookkeeping(0, u->get_preference_list().size());
+            while (not bookkeep_data[u].is_exhausted()) {
+                //vertex v in u's preflist
+                auto v = u_pref_list.at(bookkeep_data[u].begin).vertex;
+                // add replicate of v in new pref list
+                pref_list.emplace_back(B_new[v->get_id()]);
+                //incrementing propose pointer of r
+                bookkeep_data[u].begin += 1;
+            }
+            // there will be only level 0 copy for this vertex
+            copy_vertices[u].push_back(A_new[u->get_id()]);
+        }
+        // if u is a lq vertex
+        else {
+            std::vector<VertexPtr> last_level_dummies;
+            // create sum_of_lq+1 many copies for that vertex
+            for (int i = 0; i < sum_of_lq + 1; i++) {
+                IdType node_name = get_node_name(u->get_id(), "level", std::to_string(i));
+                int capacity;
+                // level 0 copy; capacity will be upper quota
+                if (i == 0) {
+                    capacity = u->get_upper_quota();
+                }
+                // otherwise capacity will be lower quota
+                else {
+                    capacity = u->get_lower_quota();
+                }
+                // create the copy vertex
+                A_new.emplace(node_name, std::make_shared<Vertex>(node_name, u->get_cloned_for_id(), 0, capacity, false));
+                // store copy vertex for future use
+                copy_vertices[u].push_back(A_new[node_name]);
+                PreferenceList& pref_list = A_new[node_name]->get_preference_list();
+
+                // if it is not level 0 copy
+                // add last lower quota many dummies of previous level at the start of pref list
+                if (i != 0) {
+                    for (int j = capacity - u->get_lower_quota(); j < last_level_dummies.size(); j++) {
+                        pref_list.emplace_back(last_level_dummies[j]);
+
+                        // add u's copy in dummy's pref list
+                        PreferenceList& dummy_pref_list = last_level_dummies[j]->get_preference_list();
+                        dummy_pref_list.emplace_back(A_new[node_name]);
+                    }
+                }
+
+                // add vertices in preflist order to preflist of copy of that vertex
+                bookkeep_data[u] = VertexBookkeeping(0, u->get_preference_list().size());
+                while (not bookkeep_data[u].is_exhausted()) {
+                    //vertex v in u's preflist
+                    auto v = u_pref_list.at(bookkeep_data[u].begin).vertex;
+                    // add replicate of v in new pref list
+                    pref_list.emplace_back(B_new[v->get_id()]);
+                    //incrementing propose pointer of r
+                    bookkeep_data[u].begin += 1;
+                }
+
+                // if it is not last level copy
+                // we have to create capacity many dummies of that copy and
+                // add it to the end of that copies pref list
+                if (i != sum_of_lq) {
+                    // clear last level dummies to store now created dummies
+                    last_level_dummies.clear();
+                    for (int j = 0; j < capacity; j++) {
+                        IdType dummy_node_name = get_node_name(node_name, "dummy", std::to_string(j));
+                        B_new.emplace(dummy_node_name, std::make_shared<Vertex>(dummy_node_name, u->get_cloned_for_id(), 0, 1, true));
+                        last_level_dummies.push_back(B_new[dummy_node_name]);
+
+                        // add this dummy to pref list of the vertex
+                        pref_list.emplace_back(B_new[dummy_node_name]);
+
+                        // add u's copy in dummy's pref list
+                        PreferenceList& dummy_pref_list = B_new[dummy_node_name]->get_preference_list();
+                        dummy_pref_list.emplace_back(A_new[node_name]);
+                    }
+                }
+            }
+        }
+    }
+
+    // fill preference lists of new B partition
+    for (auto& B1 : B) {
+        auto u = B1.second;
+        auto& u_pref_list = u->get_preference_list();
+        PreferenceList& new_pref_list = B_new[u->get_id()]->get_preference_list();
+        // for each vertex in u's pref list
+        // add their copies in order of levels
+        bookkeep_data[u] = VertexBookkeeping(0, u->get_preference_list().size());
+        // to maintain vector of vertices
+        std::vector<VertexPtr> vertices;
+        int vertex_pointer = 0;
+        // to sort the vertices accoring to their levels
+        std::vector<std::vector<int>> to_sort;
+        while (not bookkeep_data[u].is_exhausted()) {
+            //vertex v in u's preflist
+            auto v = u_pref_list.at(bookkeep_data[u].begin).vertex;
+
+            // add all initial dummies to the pref list
+            while (v->is_dummy()) {
+                new_pref_list.emplace_back(v);
+                //incrementing propose pointer of r
+                bookkeep_data[u].begin += 1;
+                if (bookkeep_data[u].is_exhausted()) {
+                    break;
+                }
+                v = u_pref_list.at(bookkeep_data[u].begin).vertex;
+            }
+
+            if (bookkeep_data[u].is_exhausted()) {
+                break;
+            }
+
+            // now for all non dummy vertices add them according to their level
+            while (!(v->is_dummy())) {
+                auto v_rank = compute_rank(v, u_pref_list);
+                // go through all copies of vertex v
+                for (int i = 0; i < copy_vertices[v].size(); i++) {
+                    // add the copy to vector
+                    vertices.push_back(copy_vertices[v][i]);
+                    // create a vector containing level, rank, position of this copy
+                    std::vector<int> temp;
+                    // level
+                    temp.push_back(i);
+                    // rank of v in u's pref_list
+                    temp.push_back(v_rank);
+                    // position of this vertex in 'vertices' vector
+                    temp.push_back(vertex_pointer);
+
+                    // add this temp vector to to_sort
+                    to_sort.push_back(temp);
+                    vertex_pointer++;
+                }
+                //incrementing propose pointer of r
+                bookkeep_data[u].begin += 1;
+                if (bookkeep_data[u].is_exhausted()) {
+                    break;
+                }
+                v = u_pref_list.at(bookkeep_data[u].begin).vertex;
+            }
+            
+            // sort the vertices on basis of level
+            sort(to_sort.begin(), to_sort.end(), compare);
+            // add those vertices in that order to new pref list
+            for (int i = 0; i < to_sort.size(); i++) {
+                int pos = to_sort[i][2];
+                new_pref_list.emplace_back(vertices[pos]);
+            }
+
+            if (bookkeep_data[u].is_exhausted()) {
+                break;
+            }
+
+            // add all last dummies to the pref list
+            while (v->is_dummy()) {
+                new_pref_list.emplace_back(v);
+                //incrementing propose pointer of r
+                bookkeep_data[u].begin += 1;
+                if (bookkeep_data[u].is_exhausted()) {
+                    break;
+                }
+                v = u_pref_list.at(bookkeep_data[u].begin).vertex;
+            }
         }
     }
 
