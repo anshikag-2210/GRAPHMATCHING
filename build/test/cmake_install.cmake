@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SAI/source/repos/GraphMatching/test
+# Install script for directory: C:/Users/SAI/SMFQ_Graphmatching/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

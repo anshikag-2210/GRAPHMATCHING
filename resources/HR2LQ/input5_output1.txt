@@ -1,0 +1,12 @@
+r1_copy_1,h1_copy_1,0,1
+r2_copy_1,h3_copy_1,0,1
+r3_copy_1,h2_copy_1,0,1
+r4_copy_1,h4_copy_1,0,1
+r5_copy_1,r5_dummy_1,0,1
+h1_copy_1,h1_dummy_1,-1,0
+h2_copy_1,h2_dummy_1,-1,0
+h4_copy_1,h4_dummy_1,-1,0
+r1_copy_1,h3_copy_1,0,0
+r2_copy_1,h2_copy_1,2,0
+r4_copy_1,h1_copy_1,0,0
+r5_copy_1,h4_copy_1,2,0

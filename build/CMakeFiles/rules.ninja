@@ -52,7 +52,7 @@ rule CXX_COMPILER__graph_
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__graph_
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E rm -f $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && D:\Softwares\cmake-3.18.1-win64-x64\bin\cmake.exe -E rm -f $TARGET_FILE && C:\MinGW\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -80,7 +80,7 @@ rule CXX_EXECUTABLE_LINKER__testrunner_
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\SAI\source\repos\GraphMatching -BC:\Users\SAI\source\repos\GraphMatching\build
+  command = D:\Softwares\cmake-3.18.1-win64-x64\bin\cmake.exe --regenerate-during-build -SC:\Users\SAI\SMFQ_Graphmatching -BC:\Users\SAI\SMFQ_Graphmatching\build
   description = Re-running CMake...
   generator = 1
 
@@ -89,7 +89,7 @@ rule RERUN_CMAKE
 # Rule for cleaning all built files.
 
 rule CLEAN
-  command = C:\PROGRA~2\MICROS~2\2019\COMMUN~1\Common7\IDE\COMMON~1\MICROS~1\CMake\Ninja\ninja.exe $FILE_ARG -t clean $TARGETS
+  command = C:\Ninja\ninja.exe $FILE_ARG -t clean $TARGETS
   description = Cleaning all built files...
 
 
@@ -97,6 +97,6 @@ rule CLEAN
 # Rule for printing all primary targets available.
 
 rule HELP
-  command = C:\PROGRA~2\MICROS~2\2019\COMMUN~1\Common7\IDE\COMMON~1\MICROS~1\CMake\Ninja\ninja.exe -t targets
+  command = C:\Ninja\ninja.exe -t targets
   description = All primary targets available:
 
