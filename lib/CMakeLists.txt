@@ -8,4 +8,4 @@ add_library(graph
                 GraphReader.cc Utils.cc 
                 RelaxedStable.cc Statistics.cc SEAPopularHRLQ.cc 
                 LpApproxSMFQ.cc Exact_Exponential_SMFQ.cc DirectApproachHR2LQ.cc
-                Node.cc Edge.cc Graph.cc HApproxSMFQ.cc)
+                Node.cc Edge.cc Graph.cc HApproxSMFQ.cc Convert_HR_to_HR2LQ.cc)

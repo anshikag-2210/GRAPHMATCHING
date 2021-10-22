@@ -26,6 +26,10 @@ The executable takes a set of parameters to compute the desired matching:
 	-h -- compute a feasible matching in a given HRLQ instance
 	-e -- compute a maximal envy free matching in an HRLQ instance
 	-y -- compute an envy free matching using Yokoi's algorithm in an HRLQ instance
+	-d -- compute popular matching for HR2LQ instance using reduction approach
+	-k -- compute matching using exact exponential algorithm for SMFQ instances
+	-l -- compute matching using LP algorithm for SMFQ instances
+	-z -- compute popular matching for HRLQ instance using SEA paper algorithm
 
 To provide an input graph, and the output matching filename:
 

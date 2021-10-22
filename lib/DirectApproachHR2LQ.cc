@@ -146,7 +146,10 @@ bool DirectApproachHR2LQ::bellman_ford(std::shared_ptr<BipartiteGraph> G,
     return false;
 }
 
-// return true if matching is popular
+// Given input graph and matching
+// calculate weights of all possible edges based on votes of vertices
+// call bellman ford to check for negative edge cycle
+// if found return false because that matching is not popular
 bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
     std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M) {
     
@@ -189,7 +192,7 @@ bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
         index_count++;
     }
     
-    // for each edge we will calculate weight
+    // for each edge we will calculate weight based on vote of participants
     for (auto& it : G->get_A_partition()) {
         //resident
         auto r = it.second;
@@ -281,6 +284,8 @@ bool DirectApproachHR2LQ::is_popular(std::shared_ptr<BipartiteGraph> G,
     return true;
 }
 
+// runs level proposing algorithm
+// returns true if feasible matching is possible
 bool DirectApproachHR2LQ::level_proposing(std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M,
     const BipartiteGraph::ContainerType& proposing_partition) {
 
@@ -424,7 +429,8 @@ IdType DirectApproachHR2LQ::get_node_name(IdType id1, IdType id2, IdType id3) {
     return id1 + "_" + id2 + "_" + id3;
 }
 
-void DirectApproachHR2LQ::generate_brandl_kavitha_graph(std::shared_ptr<BipartiteGraph> G,
+// To print brandl kavitha graph for SM2LQ instance
+void DirectApproachHR2LQ::generate_brandl_kavitha_graph_sm2lq(std::shared_ptr<BipartiteGraph> G,
     std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M) {
 
     // to store nodes
@@ -439,14 +445,15 @@ void DirectApproachHR2LQ::generate_brandl_kavitha_graph(std::shared_ptr<Bipartit
     // to store the position of unmatched node pointer of any vertex
     std::map<VertexPtr, int> unmatched_node_pointer;
 
-    // to store the position of unmatched node pointer of any vertex
+    // to store the position of unmatched dummy node pointer of any vertex
     std::map<VertexPtr, int> unmatched_dummy_node_pointer;
 
     int present_node_pointer = 0;
 
     // First find total number of nodes in the graph
     // create those nodes
-    // for every resident uq many copies plus uq-lq many dummies
+    
+    // for every resident create uq many copies plus uq-lq many dummies
     for (auto& it : G->get_A_partition()) {
         //resident
         auto r = it.second;
@@ -700,6 +707,293 @@ void DirectApproachHR2LQ::generate_brandl_kavitha_graph(std::shared_ptr<Bipartit
 
 }
 
+// To print brandl kavitha graph for HR2LQ setting
+void DirectApproachHR2LQ::generate_brandl_kavitha_graph_hr2lq(std::shared_ptr<BipartiteGraph> G,
+    std::shared_ptr<MatchingAlgorithm::MatchedPairListType>& M) {
+
+    // to store nodes
+    std::vector<NodePtr> nodes;
+
+    // to store the start position of node pointer and number of nodes
+    std::map<VertexPtr, std::vector<int>> node_pointers;
+
+    // to store the start position of dummy node pointer and number of nodes for dummies
+    std::map<VertexPtr, std::vector<int>> dummynode_pointers;
+
+    // to store the position of unmatched node pointer of any vertex
+    std::map<VertexPtr, int> unmatched_node_pointer;
+
+    // to store the position of unmatched dummy node pointer of any vertex
+    std::map<VertexPtr, int> unmatched_dummy_node_pointer;
+
+    int present_node_pointer = 0;
+
+    // First find total number of nodes in the graph
+    // create those nodes
+    
+    // for every resident create uq many copies plus uq-lq many dummies
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        // set unmatched node pos to 0
+        unmatched_node_pointer[r] = 0;
+        // set unmatched dummy node pos to 0
+        unmatched_dummy_node_pointer[r] = 0;
+        // starting node pointer
+        node_pointers[r].push_back(present_node_pointer);
+        // number of copies of this vertex
+        node_pointers[r].push_back(r->get_upper_quota());
+        // create upper quota many copy nodes
+        for (int i = 1; i <= r->get_upper_quota(); i++) {
+            IdType node_name = get_node_name(r->get_id(), "copy", std::to_string(i));
+            NodePtr node(new Node(node_name, present_node_pointer));
+            nodes.push_back(node);
+            present_node_pointer++;
+        }
+        // if r has dummies
+        if (r->get_upper_quota() - r->get_lower_quota() > 0) {
+            // starting dummy node pointer
+            dummynode_pointers[r].push_back(present_node_pointer);
+            // number of dummies for this vertex
+            dummynode_pointers[r].push_back(r->get_upper_quota() - r->get_lower_quota());
+            // create uq-lq many dummy nodes
+            for (int i = 1; i <= r->get_upper_quota() - r->get_lower_quota(); i++) {
+                IdType node_name = get_node_name(r->get_id(), "dummy", std::to_string(i));
+                NodePtr node(new Node(node_name, present_node_pointer));
+                nodes.push_back(node);
+                present_node_pointer++;
+            }
+        }
+    }
+
+    // for every hospital uq many copies plus uq-lq many dummies
+    for (auto& it : G->get_B_partition()) {
+        //hospital
+        auto h = it.second;
+        // set unmatched node pos to 0
+        unmatched_node_pointer[h] = 0;
+        // set unmatched dummy node pos to 0
+        unmatched_dummy_node_pointer[h] = 0;
+        // starting node pointer
+        node_pointers[h].push_back(present_node_pointer);
+        // number of copies of this vertex
+        node_pointers[h].push_back(h->get_upper_quota());
+        // create uq many copy nodes
+        for (int i = 1; i <= h->get_upper_quota(); i++) {
+            IdType node_name = get_node_name(h->get_id(), "copy", std::to_string(i));
+            NodePtr node(new Node(node_name, present_node_pointer));
+            nodes.push_back(node);
+            present_node_pointer++;
+        }
+        // if h has dummies
+        if (h->get_upper_quota() - h->get_lower_quota() > 0) {
+            // starting dummy node pointer
+            dummynode_pointers[h].push_back(present_node_pointer);
+            // number of dummies for this vertex
+            dummynode_pointers[h].push_back(h->get_upper_quota() - h->get_lower_quota());
+            // create uq-lq many dummy nodes
+            for (int i = 1; i <= h->get_upper_quota() - h->get_lower_quota(); i++) {
+                IdType node_name = get_node_name(h->get_id(), "dummy", std::to_string(i));
+                NodePtr node(new Node(node_name, present_node_pointer));
+                nodes.push_back(node);
+                present_node_pointer++;
+            }
+        }
+    }
+
+    // create graph for that many nodes
+    Graph cloned_graph = Graph(present_node_pointer);
+
+    // to maintain rank of matched partner for each node
+    std::vector<int> matched_node_rank(present_node_pointer, INT_MAX);
+
+    // first consider all matched partners
+    for (auto& it : G->get_A_partition()) {
+        auto r = it.second;
+        auto& r_pref_list = r->get_preference_list();
+        auto M_r = M->find(r);
+        // if r has some matchings in M
+        if (M_r != M->end()) {
+            auto& partners = M_r->second;
+            for (const auto& i : partners) {
+                // h matched to r in M
+                auto h = i.vertex;
+                auto& h_pref_list = h->get_preference_list();
+                // match some unmatched copy of r to some unmatched copy of h
+                // weight will be 0
+                int unmatched_pos_of_r = node_pointers[r][0] + unmatched_node_pointer[r];
+                int unmatched_pos_of_h = node_pointers[h][0] + unmatched_node_pointer[h];
+                // adding edge to graph
+                cloned_graph.add_edge(nodes[unmatched_pos_of_r], nodes[unmatched_pos_of_h], 0, true);
+                // store rank of matched nodes
+                matched_node_rank[unmatched_pos_of_r] = compute_rank(h, r_pref_list);
+                matched_node_rank[unmatched_pos_of_h] = compute_rank(r, h_pref_list);
+                // increment unmatched pointers
+                unmatched_node_pointer[r]++;
+                unmatched_node_pointer[h]++;
+            }
+        }
+    }
+
+    // next we create edges for dummies of residents
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        // if r has no dummies
+        if (r->get_upper_quota() - r->get_lower_quota() == 0) {
+            continue;
+        }
+
+        // if r is matched to its lower quota many vertices
+        // then we create edges between all unmatched copies of r and all its dummies
+        if(number_of_partners(M, r) == r->get_lower_quota()){
+            int unmatched_pos_of_r = node_pointers[r][0] + unmatched_node_pointer[r];
+            // all unmatched copies of r
+            while(unmatched_pos_of_r < node_pointers[r][0] + node_pointers[r][1]){
+                // all dummies of r
+                for (int j = dummynode_pointers[r][0]; j < dummynode_pointers[r][0] + dummynode_pointers[r][1]; j++) {
+                    cloned_graph.add_edge(nodes[unmatched_pos_of_r], nodes[j], 0, false);
+                }
+                unmatched_pos_of_r++;
+            }
+        }
+        // create an edge between all copies of r and all dummies of r
+        else{
+            // all copies of r
+            for (int i = node_pointers[r][0]; i < node_pointers[r][0] + node_pointers[r][1]; i++) {
+                // all dummies of r
+                for (int j = dummynode_pointers[r][0]; j < dummynode_pointers[r][0] + dummynode_pointers[r][1]; j++) {
+                    // if copy node of r at pos i is matched to true vertex
+                    if (matched_node_rank[i] != INT_MAX) {
+                        cloned_graph.add_edge(nodes[i], nodes[j], -1, false);
+                    }
+                    else {
+                        cloned_graph.add_edge(nodes[i], nodes[j], 0, false);
+                    }
+                }
+            }
+        }
+    }
+
+    // next we create edges for dummies of hospitals
+    for (auto& it : G->get_B_partition()) {
+        //hospital
+        auto h = it.second;
+        // if h has no dummies
+        if (h->get_upper_quota() - h->get_lower_quota() == 0) {
+            continue;
+        }
+
+        // if h is matched to its lower quota many vertices
+        // then create an edge between all unmatched copies of h and all its dummies
+        if(number_of_partners(M, h) == h->get_lower_quota()){
+            int unmatched_pos_of_h = node_pointers[h][0] + unmatched_node_pointer[h];
+            // all unmatched copies of h
+            while(unmatched_pos_of_h < node_pointers[h][0] + node_pointers[h][1]){
+                // all dummies of h
+                for (int j = dummynode_pointers[h][0]; j < dummynode_pointers[h][0] + dummynode_pointers[h][1]; j++) {
+                    cloned_graph.add_edge(nodes[unmatched_pos_of_h], nodes[j], 0, false);
+                }
+                unmatched_pos_of_h++;
+            }
+        }
+        // create an edge between all copies of h to all dummies of h
+        else{
+            // all copies of h
+            for (int i = node_pointers[h][0]; i < node_pointers[h][0] + node_pointers[h][1]; i++) {
+                // all dummies of h
+                for (int j = dummynode_pointers[h][0]; j < dummynode_pointers[h][0] + dummynode_pointers[h][1]; j++) {
+                    // if copy node of r at pos i is matched to true vertex
+                    if (matched_node_rank[i] != INT_MAX) {
+                        cloned_graph.add_edge(nodes[i], nodes[j], -1, false);
+                    }
+                    else {
+                        cloned_graph.add_edge(nodes[i], nodes[j], 0, false);
+                    }
+                }
+            }
+        }
+    }
+
+    // VertexBookkeeping for maintaining propose pointer and level of proposing vertices
+    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
+
+    // for each unmatched pair(r,h) we create edges
+    for (auto& it : G->get_A_partition()) {
+        //resident
+        auto r = it.second;
+        auto& r_pref_list = r->get_preference_list();
+
+        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
+
+        // while r hasn't exhausted its preference list
+        while (not bookkeep_data[r].is_exhausted()) {
+            //hospital in r's preflist
+            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
+            auto& h_pref_list = h->get_preference_list();
+
+            // if r has some matchings
+            auto M_r = M->find(r);
+            if (M_r != M->end()) {
+                auto& partners = M_r->second;
+                // if (r,h) is matched
+                // we already created edge in graph
+                if (partners.find(h) != partners.cend()) {
+                    bookkeep_data[r].begin += 1;
+                    continue;
+                }
+            }
+        
+            // (r,h) is unmatched, 
+            // so create an edge between all copies of r and all copies of h
+            for (int i = node_pointers[r][0]; i < node_pointers[r][0] + node_pointers[r][1]; i++) {
+                for (int j = node_pointers[h][0]; j < node_pointers[h][0] + node_pointers[h][1]; j++) {
+                    int wt = 0;
+                    // if r's copy node at i is matched to dummy node
+                    // r's copy prefers this edge with copy of h over edge with dummy
+                    if (matched_node_rank[i] == INT_MAX) {
+                        wt += 1;
+                    }
+                    // if r's copy node at i is matched to true node
+                    else {
+                        //r's copy prefers its matched node
+                        if (matched_node_rank[i] < compute_rank(h, r_pref_list)) {
+                            wt -= 1;
+                        }
+                        else if (matched_node_rank[i] > compute_rank(h, r_pref_list)) {
+                            wt += 1;
+                        }
+                    }
+                    // similarly for h
+                    // if h's copy node at j is matched to dummy node
+                    // h's copy prefers this edge with copy of r over edge with dummys
+                    if (matched_node_rank[j] == INT_MAX) {
+                        wt += 1;
+                    }
+                    // if h's copy node at j is matched to true node
+                    else {
+                        //h's copy prefers its matched node
+                        if (matched_node_rank[j] < compute_rank(r, h_pref_list)) {
+                            wt -= 1;
+                        }
+                        else if (matched_node_rank[j] > compute_rank(r, h_pref_list)) {
+                            wt += 1;
+                        }
+                    }
+
+                    // create a unmatched edge
+                    cloned_graph.add_edge(nodes[i], nodes[j], wt, false);
+                }
+            }
+
+            //incrementing propose pointer of r
+            bookkeep_data[r].begin += 1;
+        }
+    }
+
+    cloned_graph.print_graph();
+
+}
 
 bool DirectApproachHR2LQ::compare(std::vector<int> A, std::vector<int> B) {
     if (A[0] < B[0])return false;
@@ -708,8 +1002,8 @@ bool DirectApproachHR2LQ::compare(std::vector<int> A, std::vector<int> B) {
     else return (A[1] < B[1]);
 }
 
-/*
-// make partition A as SM partition
+
+// converts partition A as SM partition
 std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(BipartiteGraph::ContainerType A,
     BipartiteGraph::ContainerType B, bool is_R_phase) {
 
@@ -857,10 +1151,10 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(Bipa
         return std::make_shared<BipartiteGraph>(B_new, A_new);
     }
 }
-*/
 
-// make partition A as SM partition
-std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(BipartiteGraph::ContainerType A,
+
+// make partition A as HR partition
+std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_HR(BipartiteGraph::ContainerType A,
     BipartiteGraph::ContainerType B, bool is_R_phase) {
 
     //partitions of new graph
@@ -935,7 +1229,7 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(Bipa
                 // if it is not level 0 copy
                 // add last lower quota many dummies of previous level at the start of pref list
                 if (i != 0) {
-                    for (int j = capacity - u->get_lower_quota(); j < last_level_dummies.size(); j++) {
+                    for (int j = last_level_dummies.size() - u->get_lower_quota(); j < last_level_dummies.size(); j++) {
                         pref_list.emplace_back(last_level_dummies[j]);
 
                         // add u's copy in dummy's pref list
@@ -997,7 +1291,7 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(Bipa
 
             // add all initial dummies to the pref list
             while (v->is_dummy()) {
-                new_pref_list.emplace_back(v);
+                new_pref_list.emplace_back(A_new[v->get_id()]);
                 //incrementing propose pointer of r
                 bookkeep_data[u].begin += 1;
                 if (bookkeep_data[u].is_exhausted()) {
@@ -1052,7 +1346,7 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::reduce_partition_to_SM(Bipa
 
             // add all last dummies to the pref list
             while (v->is_dummy()) {
-                new_pref_list.emplace_back(v);
+                new_pref_list.emplace_back(A_new[v->get_id()]);
                 //incrementing propose pointer of r
                 bookkeep_data[u].begin += 1;
                 if (bookkeep_data[u].is_exhausted()) {
@@ -1076,6 +1370,7 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::get_reduced_graph() {
     // input graph
     std::shared_ptr<BipartiteGraph> G = get_graph();
 
+    /*
     // hospital phase
     // For finding reduced SM instance graph 
     std::shared_ptr<BipartiteGraph> G1 = reduce_partition_to_SM(G->get_B_partition(), G->get_A_partition(), false);
@@ -1083,6 +1378,15 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::get_reduced_graph() {
     // resident phase
     // For finding reduced SM instance graph 
     std::shared_ptr<BipartiteGraph> G2 = reduce_partition_to_SM(G1->get_A_partition(), G1->get_B_partition(), true);
+    */
+
+    // hospital phase
+    // For finding reduced HR instance graph 
+    std::shared_ptr<BipartiteGraph> G1 = reduce_partition_to_HR(G->get_B_partition(), G->get_A_partition(), false);
+
+    // resident phase
+    // For finding reduced HR instance graph 
+    std::shared_ptr<BipartiteGraph> G2 = reduce_partition_to_HR(G1->get_A_partition(), G1->get_B_partition(), true);
 
     return G2;
 }
@@ -1090,6 +1394,8 @@ std::shared_ptr<BipartiteGraph> DirectApproachHR2LQ::get_reduced_graph() {
 std::shared_ptr<MatchingAlgorithm::MatchedPairListType> DirectApproachHR2LQ::compute_matching() {
     
     std::shared_ptr<BipartiteGraph> G = get_graph();
+    
+    //below commented code uses level proposing algorithm
     /*
     //find stable matching
     StableMarriage alg(G, false);
@@ -1110,12 +1416,14 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> DirectApproachHR2LQ::com
     }
     */
 
-    //For finding reduced SM instance graph 
+    //For finding reduced HR instance graph 
     const std::shared_ptr<BipartiteGraph>& G1 = get_reduced_graph();
 
-    /*
+    
     std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
     
+    // To print reduced instance, uncomment below
+    /*
     std::cout << "Reduced graph A partition\n";
     for (auto& it : G1->get_A_partition()) {
         //resident
@@ -1127,7 +1435,11 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> DirectApproachHR2LQ::com
         while (not bookkeep_data[r].is_exhausted()) {
             //hospital in r's preflist
             auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
-            std::cout << h->get_id() << " , ";
+            auto& h_pref_list = h->get_preference_list();
+            if(h_pref_list.find_index(r) == h_pref_list.size()){
+                std::cout<<" not exists ";
+            }
+            std::cout << h->get_id() <<"("<<compute_rank(h,r_pref_list) << ") , ";
             //incrementing propose pointer of r
             bookkeep_data[r].begin += 1;
         }
@@ -1136,30 +1448,32 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> DirectApproachHR2LQ::com
 
     std::cout << "\nReduced graph B partition\n";
     for (auto& it : G1->get_B_partition()) {
-        //resident
-        auto r = it.second;
-        auto& r_pref_list = r->get_preference_list();
-        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
-        std::cout << "("<<r->get_lower_quota()<<","<<r->get_upper_quota()<<") "<<r->get_id() << " : ";
-        // while r hasn't exhausted its preference list
-        while (not bookkeep_data[r].is_exhausted()) {
-            //hospital in r's preflist
-            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
-            std::cout << h->get_id() << " , ";
+        //hospital
+        auto h = it.second;
+        auto& h_pref_list = h->get_preference_list();
+        bookkeep_data[h] = VertexBookkeeping(0, h->get_preference_list().size());
+        std::cout << "("<<h->get_lower_quota()<<","<<h->get_upper_quota()<<") "<<h->get_id() << " : ";
+        // while h hasn't exhausted its preference list
+        while (not bookkeep_data[h].is_exhausted()) {
+            //resident in h's preflist
+            auto r = h_pref_list.at(bookkeep_data[h].begin).vertex;
+            auto& r_pref_list = r->get_preference_list();
+            if(r_pref_list.find_index(h) == r_pref_list.size()){
+                std::cout<<" not exists ";
+            }
+            std::cout << r->get_id() <<"("<<compute_rank(r,h_pref_list) << ") , ";
             //incrementing propose pointer of r
-            bookkeep_data[r].begin += 1;
+            bookkeep_data[h].begin += 1;
         }
         std::cout << " \n";
     }
     */
-    //find stable matching for reduced instance
+
+    //finding stable matching for reduced instance
     StableMarriage alg(G1, false);
     auto M = alg.compute_matching();
-    /*
-    std::cout << "\nStable matching\n";
-    print_matching(G1, M, std::cout);
-    */
-    // convert matching to appropriate matching for original graph
+    
+    // convert stable matching of reduced instance to appropriate matching for original graph
     auto A_old = G->get_A_partition();
     auto B_old = G->get_B_partition();
     
@@ -1198,64 +1512,8 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> DirectApproachHR2LQ::com
       
     }
     
-    //std::cout << "\nBrandl - Kavitha Graph\n";
-    generate_brandl_kavitha_graph(G, N);
+    //To print brandl kavitha graph
+    // generate_brandl_kavitha_graph_hr2lq(G, N);
 
-    /*
-    // VertexBookkeeping for maintaining propose pointer and level of proposing vertices
-    std::map<VertexPtr, VertexBookkeeping> bookkeep_data;
-    auto N = std::make_shared<MatchingAlgorithm::MatchedPairListType>();
-
-    for (auto& it : G->get_A_partition()) {
-        //resident
-        auto r = it.second;
-        auto& r_pref_list = r->get_preference_list();
-        bookkeep_data[r] = VertexBookkeeping(0, r->get_preference_list().size());
-
-        // while r hasn't exhausted its preference list
-        while (not bookkeep_data[r].is_exhausted()) {
-            //hospital in r's preflist
-            auto h = r_pref_list.at(bookkeep_data[r].begin).vertex;
-            auto h_pref_list = h->get_preference_list();
-
-            if (r->get_id() == "r1" && h->get_id() == "h5") {
-                // add r and h to the matching
-                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
-                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
-                break;
-            }
-            if (r->get_id() == "r2" && h->get_id() == "h3") {
-                // add r and h to the matching
-                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
-                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
-                break;
-            }
-            if (r->get_id() == "r3" && h->get_id() == "h2") {
-                // add r and h to the matching
-                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
-                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
-                break;
-            }
-            if (r->get_id() == "r4" && h->get_id() == "h1") {
-                // add r and h to the matching
-                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
-                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
-                break;
-            }
-            if (r->get_id() == "r5" && h->get_id() == "h4") {
-                // add r and h to the matching
-                add_partner(N, h, r, compute_rank(r, h_pref_list), 0);
-                add_partner(N, r, h, compute_rank(h, r_pref_list), 0);
-                break;
-            }
-            //incrementing propose pointer of r
-            bookkeep_data[r].begin += 1;
-        }
-    }
-    std::cout << "-----------------------------\n";
-    print_matching(G, N, std::cout);
-    if (!is_popular(G, N)) {
-        std::cout << "Not popular\n";
-    }*/
     return N;
 }

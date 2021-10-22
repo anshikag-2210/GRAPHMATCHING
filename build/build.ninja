@@ -80,8 +80,6 @@ build CMakeFiles/graphmatching.dir/main.cc.obj: CXX_COMPILER__graphmatching_ ../
   INCLUDES = -I../include
   OBJECT_DIR = CMakeFiles\graphmatching.dir
   OBJECT_FILE_DIR = CMakeFiles\graphmatching.dir
-  TARGET_COMPILE_PDB = CMakeFiles\graphmatching.dir\
-  TARGET_PDB = graphmatching.pdb
 
 
 # =============================================================================
@@ -96,10 +94,9 @@ build graphmatching.exe: CXX_EXECUTABLE_LINKER__graphmatching_ CMakeFiles/graphm
   OBJECT_DIR = CMakeFiles\graphmatching.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\graphmatching.dir\
   TARGET_FILE = graphmatching.exe
   TARGET_IMPLIB = libgraphmatching.dll.a
-  TARGET_PDB = graphmatching.pdb
+  TARGET_PDB = graphmatching.exe.dbg
 
 
 #############################################
@@ -151,8 +148,6 @@ build lib/CMakeFiles/graph.dir/MatchingAlgorithm.cc.obj: CXX_COMPILER__graph_ ..
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj: CXX_COMPILER__graph_ ../lib/NProposingMatching.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\NProposingMatching.cc.obj.d
@@ -160,8 +155,6 @@ build lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj: CXX_COMPILER__graph_ .
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj: CXX_COMPILER__graph_ ../lib/YokoiEnvyfreeHRLQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\YokoiEnvyfreeHRLQ.cc.obj.d
@@ -169,8 +162,6 @@ build lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj: CXX_COMPILER__graph_ ..
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj: CXX_COMPILER__graph_ ../lib/MaximalEnvyfreeHRLQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\MaximalEnvyfreeHRLQ.cc.obj.d
@@ -178,8 +169,6 @@ build lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj: CXX_COMPILER__graph_ 
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj: CXX_COMPILER__graph_ ../lib/HHeuristicHRLQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\HHeuristicHRLQ.cc.obj.d
@@ -187,8 +176,6 @@ build lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj: CXX_COMPILER__graph_ ../li
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/RHeuristicHRLQ.cc.obj: CXX_COMPILER__graph_ ../lib/RHeuristicHRLQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\RHeuristicHRLQ.cc.obj.d
@@ -196,8 +183,6 @@ build lib/CMakeFiles/graph.dir/RHeuristicHRLQ.cc.obj: CXX_COMPILER__graph_ ../li
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj: CXX_COMPILER__graph_ ../lib/BipartiteGraph.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\BipartiteGraph.cc.obj.d
@@ -205,8 +190,6 @@ build lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj: CXX_COMPILER__graph_ ../li
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Partner.cc.obj: CXX_COMPILER__graph_ ../lib/Partner.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Partner.cc.obj.d
@@ -214,8 +197,6 @@ build lib/CMakeFiles/graph.dir/Partner.cc.obj: CXX_COMPILER__graph_ ../lib/Partn
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/PartnerList.cc.obj: CXX_COMPILER__graph_ ../lib/PartnerList.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\PartnerList.cc.obj.d
@@ -223,8 +204,6 @@ build lib/CMakeFiles/graph.dir/PartnerList.cc.obj: CXX_COMPILER__graph_ ../lib/P
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/PreferenceList.cc.obj: CXX_COMPILER__graph_ ../lib/PreferenceList.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\PreferenceList.cc.obj.d
@@ -232,8 +211,6 @@ build lib/CMakeFiles/graph.dir/PreferenceList.cc.obj: CXX_COMPILER__graph_ ../li
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Vertex.cc.obj: CXX_COMPILER__graph_ ../lib/Vertex.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Vertex.cc.obj.d
@@ -241,8 +218,6 @@ build lib/CMakeFiles/graph.dir/Vertex.cc.obj: CXX_COMPILER__graph_ ../lib/Vertex
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/GraphReader.cc.obj: CXX_COMPILER__graph_ ../lib/GraphReader.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\GraphReader.cc.obj.d
@@ -250,8 +225,6 @@ build lib/CMakeFiles/graph.dir/GraphReader.cc.obj: CXX_COMPILER__graph_ ../lib/G
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Utils.cc.obj: CXX_COMPILER__graph_ ../lib/Utils.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Utils.cc.obj.d
@@ -259,8 +232,6 @@ build lib/CMakeFiles/graph.dir/Utils.cc.obj: CXX_COMPILER__graph_ ../lib/Utils.c
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/RelaxedStable.cc.obj: CXX_COMPILER__graph_ ../lib/RelaxedStable.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\RelaxedStable.cc.obj.d
@@ -268,8 +239,6 @@ build lib/CMakeFiles/graph.dir/RelaxedStable.cc.obj: CXX_COMPILER__graph_ ../lib
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Statistics.cc.obj: CXX_COMPILER__graph_ ../lib/Statistics.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Statistics.cc.obj.d
@@ -277,8 +246,6 @@ build lib/CMakeFiles/graph.dir/Statistics.cc.obj: CXX_COMPILER__graph_ ../lib/St
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/SEAPopularHRLQ.cc.obj: CXX_COMPILER__graph_ ../lib/SEAPopularHRLQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\SEAPopularHRLQ.cc.obj.d
@@ -286,8 +253,6 @@ build lib/CMakeFiles/graph.dir/SEAPopularHRLQ.cc.obj: CXX_COMPILER__graph_ ../li
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/LpApproxSMFQ.cc.obj: CXX_COMPILER__graph_ ../lib/LpApproxSMFQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\LpApproxSMFQ.cc.obj.d
@@ -295,8 +260,6 @@ build lib/CMakeFiles/graph.dir/LpApproxSMFQ.cc.obj: CXX_COMPILER__graph_ ../lib/
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Exact_Exponential_SMFQ.cc.obj: CXX_COMPILER__graph_ ../lib/Exact_Exponential_SMFQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Exact_Exponential_SMFQ.cc.obj.d
@@ -304,8 +267,6 @@ build lib/CMakeFiles/graph.dir/Exact_Exponential_SMFQ.cc.obj: CXX_COMPILER__grap
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj: CXX_COMPILER__graph_ ../lib/DirectApproachHR2LQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\DirectApproachHR2LQ.cc.obj.d
@@ -313,8 +274,6 @@ build lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj: CXX_COMPILER__graph_ 
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Node.cc.obj: CXX_COMPILER__graph_ ../lib/Node.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Node.cc.obj.d
@@ -322,8 +281,6 @@ build lib/CMakeFiles/graph.dir/Node.cc.obj: CXX_COMPILER__graph_ ../lib/Node.cc 
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Edge.cc.obj: CXX_COMPILER__graph_ ../lib/Edge.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Edge.cc.obj.d
@@ -331,8 +288,6 @@ build lib/CMakeFiles/graph.dir/Edge.cc.obj: CXX_COMPILER__graph_ ../lib/Edge.cc 
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/Graph.cc.obj: CXX_COMPILER__graph_ ../lib/Graph.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\Graph.cc.obj.d
@@ -340,8 +295,6 @@ build lib/CMakeFiles/graph.dir/Graph.cc.obj: CXX_COMPILER__graph_ ../lib/Graph.c
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
 
 build lib/CMakeFiles/graph.dir/HApproxSMFQ.cc.obj: CXX_COMPILER__graph_ ../lib/HApproxSMFQ.cc || cmake_object_order_depends_target_graph
   DEP_FILE = lib\CMakeFiles\graph.dir\HApproxSMFQ.cc.obj.d
@@ -349,8 +302,13 @@ build lib/CMakeFiles/graph.dir/HApproxSMFQ.cc.obj: CXX_COMPILER__graph_ ../lib/H
   INCLUDES = -I../include -I../lib/include
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
-  TARGET_PDB = lib\libgraph.pdb
+
+build lib/CMakeFiles/graph.dir/Convert_HR_to_HR2LQ.cc.obj: CXX_COMPILER__graph_ ../lib/Convert_HR_to_HR2LQ.cc || cmake_object_order_depends_target_graph
+  DEP_FILE = lib\CMakeFiles\graph.dir\Convert_HR_to_HR2LQ.cc.obj.d
+  FLAGS = -Wall -O0 -g -std=gnu++1z
+  INCLUDES = -I../include -I../lib/include
+  OBJECT_DIR = lib\CMakeFiles\graph.dir
+  OBJECT_FILE_DIR = lib\CMakeFiles\graph.dir
 
 
 # =============================================================================
@@ -360,13 +318,12 @@ build lib/CMakeFiles/graph.dir/HApproxSMFQ.cc.obj: CXX_COMPILER__graph_ ../lib/H
 #############################################
 # Link the static library lib\libgraph.a
 
-build lib/libgraph.a: CXX_STATIC_LIBRARY_LINKER__graph_ lib/CMakeFiles/graph.dir/MatchingAlgorithm.cc.obj lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/RHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj lib/CMakeFiles/graph.dir/Partner.cc.obj lib/CMakeFiles/graph.dir/PartnerList.cc.obj lib/CMakeFiles/graph.dir/PreferenceList.cc.obj lib/CMakeFiles/graph.dir/Vertex.cc.obj lib/CMakeFiles/graph.dir/GraphReader.cc.obj lib/CMakeFiles/graph.dir/Utils.cc.obj lib/CMakeFiles/graph.dir/RelaxedStable.cc.obj lib/CMakeFiles/graph.dir/Statistics.cc.obj lib/CMakeFiles/graph.dir/SEAPopularHRLQ.cc.obj lib/CMakeFiles/graph.dir/LpApproxSMFQ.cc.obj lib/CMakeFiles/graph.dir/Exact_Exponential_SMFQ.cc.obj lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj lib/CMakeFiles/graph.dir/Node.cc.obj lib/CMakeFiles/graph.dir/Edge.cc.obj lib/CMakeFiles/graph.dir/Graph.cc.obj lib/CMakeFiles/graph.dir/HApproxSMFQ.cc.obj
+build lib/libgraph.a: CXX_STATIC_LIBRARY_LINKER__graph_ lib/CMakeFiles/graph.dir/MatchingAlgorithm.cc.obj lib/CMakeFiles/graph.dir/NProposingMatching.cc.obj lib/CMakeFiles/graph.dir/YokoiEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/MaximalEnvyfreeHRLQ.cc.obj lib/CMakeFiles/graph.dir/HHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/RHeuristicHRLQ.cc.obj lib/CMakeFiles/graph.dir/BipartiteGraph.cc.obj lib/CMakeFiles/graph.dir/Partner.cc.obj lib/CMakeFiles/graph.dir/PartnerList.cc.obj lib/CMakeFiles/graph.dir/PreferenceList.cc.obj lib/CMakeFiles/graph.dir/Vertex.cc.obj lib/CMakeFiles/graph.dir/GraphReader.cc.obj lib/CMakeFiles/graph.dir/Utils.cc.obj lib/CMakeFiles/graph.dir/RelaxedStable.cc.obj lib/CMakeFiles/graph.dir/Statistics.cc.obj lib/CMakeFiles/graph.dir/SEAPopularHRLQ.cc.obj lib/CMakeFiles/graph.dir/LpApproxSMFQ.cc.obj lib/CMakeFiles/graph.dir/Exact_Exponential_SMFQ.cc.obj lib/CMakeFiles/graph.dir/DirectApproachHR2LQ.cc.obj lib/CMakeFiles/graph.dir/Node.cc.obj lib/CMakeFiles/graph.dir/Edge.cc.obj lib/CMakeFiles/graph.dir/Graph.cc.obj lib/CMakeFiles/graph.dir/HApproxSMFQ.cc.obj lib/CMakeFiles/graph.dir/Convert_HR_to_HR2LQ.cc.obj
   OBJECT_DIR = lib\CMakeFiles\graph.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = lib\CMakeFiles\graph.dir\graph.pdb
   TARGET_FILE = lib\libgraph.a
-  TARGET_PDB = lib\libgraph.pdb
+  TARGET_PDB = graph.a.dbg
 
 
 #############################################
@@ -454,8 +411,6 @@ build test/CMakeFiles/testrunner.dir/TestDefs.cc.obj: CXX_COMPILER__testrunner_ 
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestRunner.cc.obj: CXX_COMPILER__testrunner_ ../test/TestRunner.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestRunner.cc.obj.d
@@ -463,8 +418,6 @@ build test/CMakeFiles/testrunner.dir/TestRunner.cc.obj: CXX_COMPILER__testrunner
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestPreferenceList.cc.obj: CXX_COMPILER__testrunner_ ../test/TestPreferenceList.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestPreferenceList.cc.obj.d
@@ -472,8 +425,6 @@ build test/CMakeFiles/testrunner.dir/TestPreferenceList.cc.obj: CXX_COMPILER__te
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestPartnerList.cc.obj: CXX_COMPILER__testrunner_ ../test/TestPartnerList.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestPartnerList.cc.obj.d
@@ -481,8 +432,6 @@ build test/CMakeFiles/testrunner.dir/TestPartnerList.cc.obj: CXX_COMPILER__testr
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestUtils.cc.obj: CXX_COMPILER__testrunner_ ../test/TestUtils.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestUtils.cc.obj.d
@@ -490,8 +439,6 @@ build test/CMakeFiles/testrunner.dir/TestUtils.cc.obj: CXX_COMPILER__testrunner_
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestStableMarriage.cc.obj: CXX_COMPILER__testrunner_ ../test/TestStableMarriage.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestStableMarriage.cc.obj.d
@@ -499,8 +446,6 @@ build test/CMakeFiles/testrunner.dir/TestStableMarriage.cc.obj: CXX_COMPILER__te
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestPopular.cc.obj: CXX_COMPILER__testrunner_ ../test/TestPopular.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestPopular.cc.obj.d
@@ -508,8 +453,6 @@ build test/CMakeFiles/testrunner.dir/TestPopular.cc.obj: CXX_COMPILER__testrunne
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestHR.cc.obj: CXX_COMPILER__testrunner_ ../test/TestHR.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestHR.cc.obj.d
@@ -517,8 +460,6 @@ build test/CMakeFiles/testrunner.dir/TestHR.cc.obj: CXX_COMPILER__testrunner_ ..
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestYokoi.cc.obj: CXX_COMPILER__testrunner_ ../test/TestYokoi.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestYokoi.cc.obj.d
@@ -526,8 +467,6 @@ build test/CMakeFiles/testrunner.dir/TestYokoi.cc.obj: CXX_COMPILER__testrunner_
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestMaximalEnvyfreeHRLQ.cc.obj: CXX_COMPILER__testrunner_ ../test/TestMaximalEnvyfreeHRLQ.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestMaximalEnvyfreeHRLQ.cc.obj.d
@@ -535,8 +474,6 @@ build test/CMakeFiles/testrunner.dir/TestMaximalEnvyfreeHRLQ.cc.obj: CXX_COMPILE
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 build test/CMakeFiles/testrunner.dir/TestParser.cc.obj: CXX_COMPILER__testrunner_ ../test/TestParser.cc || cmake_object_order_depends_target_testrunner
   DEP_FILE = test\CMakeFiles\testrunner.dir\TestParser.cc.obj.d
@@ -544,8 +481,6 @@ build test/CMakeFiles/testrunner.dir/TestParser.cc.obj: CXX_COMPILER__testrunner
   INCLUDES = -I../include -I../test/include
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   OBJECT_FILE_DIR = test\CMakeFiles\testrunner.dir
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
-  TARGET_PDB = test\testrunner.pdb
 
 
 # =============================================================================
@@ -560,10 +495,9 @@ build test/testrunner.exe: CXX_EXECUTABLE_LINKER__testrunner_ test/CMakeFiles/te
   OBJECT_DIR = test\CMakeFiles\testrunner.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = test\CMakeFiles\testrunner.dir\
   TARGET_FILE = test\testrunner.exe
   TARGET_IMPLIB = test\libtestrunner.dll.a
-  TARGET_PDB = test\testrunner.pdb
+  TARGET_PDB = testrunner.exe.dbg
 
 
 #############################################
@@ -680,14 +614,14 @@ build test/all: phony test/testrunner.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../lib/CMakeLists.txt ../test/CMakeLists.txt CMakeCache.txt CMakeFiles/3.18.1/CMakeCCompiler.cmake CMakeFiles/3.18.1/CMakeCXXCompiler.cmake CMakeFiles/3.18.1/CMakeRCCompiler.cmake CMakeFiles/3.18.1/CMakeSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCCompiler.cmake.in D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCCompilerABI.c D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXCompiler.cmake.in D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXCompilerABI.cpp D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCompilerIdDetection.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCXXCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompileFeatures.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompilerABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompilerId.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineRCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeFindBinUtils.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeGenericSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeInitializeConfigs.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeNinjaFindMake.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeParseImplicitIncludeInfo.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeParseImplicitLinkInfo.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeRCCompiler.cmake.in D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeRCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestCXXCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestCompilerCommon.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestRCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/ADSP-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/ARMCC-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/ARMClang-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/AppleClang-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Borland-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Bruce-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/CMakeCommonCompilerMacros.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Clang-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Clang-DetermineCompilerInternal.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Compaq-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Cray-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Embarcadero-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Fujitsu-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GHS-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-FindBinUtils.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/HP-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/HP-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/IAR-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Intel-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/MSVC-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/NVIDIA-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/PGI-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/PathScale-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SCO-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SDCC-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SunPro-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/TI-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Watcom-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XL-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XL-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XLClang-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/zOS-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Internal/CMakeCheckCompilerFlag.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Internal/FeatureTesting.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-Determine-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-windres.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/WindowsPaths.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../lib/CMakeLists.txt ../test/CMakeLists.txt CMakeCache.txt CMakeFiles/3.18.1/CMakeCCompiler.cmake CMakeFiles/3.18.1/CMakeCXXCompiler.cmake CMakeFiles/3.18.1/CMakeRCCompiler.cmake CMakeFiles/3.18.1/CMakeSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeGenericSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeInitializeConfigs.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeRCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/CMakeCommonCompilerMacros.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Internal/CMakeCheckCompilerFlag.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-windres.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/WindowsPaths.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt ../lib/CMakeLists.txt ../test/CMakeLists.txt CMakeCache.txt CMakeFiles/3.18.1/CMakeCCompiler.cmake CMakeFiles/3.18.1/CMakeCXXCompiler.cmake CMakeFiles/3.18.1/CMakeRCCompiler.cmake CMakeFiles/3.18.1/CMakeSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCCompiler.cmake.in D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCCompilerABI.c D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXCompiler.cmake.in D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXCompilerABI.cpp D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCompilerIdDetection.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCXXCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompileFeatures.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompilerABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineCompilerId.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeDetermineRCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeFindBinUtils.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeGenericSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeInitializeConfigs.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeNinjaFindMake.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeParseImplicitIncludeInfo.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeParseImplicitLinkInfo.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeRCCompiler.cmake.in D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeRCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestCXXCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestCompilerCommon.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeTestRCCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/ADSP-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/ARMCC-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/ARMClang-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/AppleClang-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Borland-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Bruce-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/CMakeCommonCompilerMacros.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Clang-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Clang-DetermineCompilerInternal.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Compaq-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Cray-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Embarcadero-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Fujitsu-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GHS-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-FindBinUtils.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/HP-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/HP-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/IAR-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Intel-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/MSVC-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/NVIDIA-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/PGI-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/PathScale-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SCO-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SDCC-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SunPro-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/TI-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/Watcom-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XL-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XL-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XLClang-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/zOS-C-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Internal/CMakeCheckCompilerFlag.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Internal/FeatureTesting.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-Determine-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-windres.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/WindowsPaths.cmake: phony
+build ../CMakeLists.txt ../lib/CMakeLists.txt ../test/CMakeLists.txt CMakeCache.txt CMakeFiles/3.18.1/CMakeCCompiler.cmake CMakeFiles/3.18.1/CMakeCXXCompiler.cmake CMakeFiles/3.18.1/CMakeRCCompiler.cmake CMakeFiles/3.18.1/CMakeSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCXXInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeGenericSystem.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeInitializeConfigs.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeRCInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInformation.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/CMakeCommonCompilerMacros.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Compiler/GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Internal/CMakeCheckCompilerFlag.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-C.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX-ABI.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU-CXX.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-GNU.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows-windres.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/Windows.cmake D$:/Softwares/cmake-3.18.1-win64-x64/share/cmake-3.18/Modules/Platform/WindowsPaths.cmake: phony
 
 
 #############################################

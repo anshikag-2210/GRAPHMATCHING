@@ -30,9 +30,6 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> SEAPopularHRLQ::compute_
         bookkeep_data[v].in_free_list = true;
     }
 
-    //finding max_level
-    int max_level_hospital_reached = 0;
-
     // while there is at least one hospital in the free list
     while (not free_list.empty()) {
         // hospital at the front in free list
@@ -101,12 +98,6 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> SEAPopularHRLQ::compute_
                     // add it to free list
                     bookkeep_data[h].in_free_list = true;
                     free_list.push(h);
-
-                    /////////////////////////////////////////
-                    if (h->get_id() == "h60") {
-                        std::cout << "h60 added 2 \n";
-                    }
-                    /////////////////////////////////////////
                 }
             }
             // if h is lower quota hospital and is deficient
@@ -115,12 +106,6 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> SEAPopularHRLQ::compute_
                     // add it to free list
                     bookkeep_data[h].in_free_list = true;
                     free_list.push(h);
-
-                    /////////////////////////////////////////
-                    if (h->get_id() == "h60") {
-                        std::cout << "h60 added 3 \n";
-                    }
-                    /////////////////////////////////////////
                 }
             }
             //increment h's propose pointer
@@ -132,25 +117,11 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> SEAPopularHRLQ::compute_
             // increment h's level
             bookkeep_data[h].level += 1;
 
-            ///////////////////////////////
-            if (max_level_hospital_reached < bookkeep_data[h].level) {
-                max_level_hospital_reached = bookkeep_data[h].level;
-                std::cout << h->get_id() << " reached level " << max_level_hospital_reached << "\n";
-                std::cout << h->get_id() << " partners " << number_of_partners(M, h) << "\n";
-            }
-            ///////////////////////////////
-
             // reset proposal index
             bookkeep_data[h].begin = 0;
             // add it to free list
             bookkeep_data[h].in_free_list = true;
             free_list.push(h);
-
-            /////////////////////////////////////////
-            if (h->get_id() == "h60") {
-                std::cout << "h60 added 4 \n";
-            }
-            /////////////////////////////////////////
         }
 
         //////////////// invariant
@@ -180,6 +151,5 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> SEAPopularHRLQ::compute_
         /////////////////////////////////////
     }
 
-    std::cout << max_level_hospital_reached << ",  ";
     return M;
 }

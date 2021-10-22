@@ -3,6 +3,7 @@
 #include "Partner.h"
 #include "Utils.h"
 #include <set>
+#include <iostream>
 
 NProposingMatching::NProposingMatching(std::shared_ptr<BipartiteGraph> G,
                                        bool A_proposing, int max_level)
@@ -73,6 +74,7 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> NProposingMatching::comp
             auto v = u_pref_list.at(bookkeep_data[u].begin).vertex;
             auto v_pref_list = v->get_preference_list();
 
+            
             // v cannot be matched to anyone
             if (v->get_upper_quota() == 0 or v_pref_list.size() == 0) {
                 // do nothing, also inconsistent graph maybe
@@ -80,7 +82,7 @@ std::shared_ptr<MatchingAlgorithm::MatchedPairListType> NProposingMatching::comp
                 // |M[v]| = upper_quota(v)
                 auto v_worst_partner = M->at(v).get_least_preferred();
                 auto possible_partner = Partner(u, compute_rank(u, v_pref_list), bookkeep_data[u].level);
-
+                
                 if (v_worst_partner < possible_partner) {
                     // remove M[v_worst_partner] from M[v], and M[v] from M[v_worst_partner]
                     M->at(v).remove_least_preferred();
