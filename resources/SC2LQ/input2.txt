@@ -1,0 +1,19 @@
+@PartitionA
+s1 (1, 2), s2 (1, 2), s3 (0, 0);
+@End
+
+@PartitionB
+c1 (0, 2), c2 (1, 2), c3 (0, 2);
+@End
+
+@PreferenceListsA
+s1: c2, c1;
+s2: c2, c3;
+s3: c2, c1;
+@End
+
+@PreferenceListsB
+c1: s3, s1;
+c2: s1, s2, s3;
+c3: s2;
+@End

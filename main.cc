@@ -16,6 +16,7 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
+#include "SC2LQ.h"
 
 template<typename T>
 void compute_matching(bool A_proposing, const char* input_file, const char* output_file) {
@@ -71,6 +72,7 @@ int main(int argc, char* argv[]) {
     bool compute_yhrlq = false;
     bool compute_ehrlq = false;
     bool convert_hr_to_hr2lq = false;
+    bool compute_popular_sc2lq=false;
     bool A_proposing = true;
     const char* input_file = nullptr;
     const char* output_file = nullptr;
@@ -100,6 +102,7 @@ int main(int argc, char* argv[]) {
             case 'e': compute_ehrlq = true; break;
             case 'i': input_file = optarg; break;
             case 'o': output_file = optarg; break;
+            case 'P': compute_popular_sc2lq = true; break; 
             case '?':
                 if (optopt == 'i') {
                     std::cerr << "Option -i requires an argument.\n";
@@ -136,6 +139,8 @@ int main(int argc, char* argv[]) {
         compute_matching<YokoiEnvyfreeHRLQ>(A_proposing, input_file, output_file);
     } else if (compute_ehrlq) {
         compute_matching<MaximalEnvyfreeHRLQ>(A_proposing, input_file, output_file);
+    } else if(compute_popular_sc2lq){
+        compute_matching<SC2LQ>(A_proposing, input_file, output_file);
     }
 
     return 0;
