@@ -2,7 +2,7 @@
 #define NODE_H
 
 #include "TDefs.h"
-
+#include<string>
 // Node in a Graph.
 class Node {
 private:

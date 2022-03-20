@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SAI/SMFQ_Graphmatching/test
+# Install script for directory: C:/Users/LENOVO/Desktop/MTP_implementation/GRAPHMATCHING/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,6 +34,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/MinGW/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/msys64/mingw64/bin/objdump.exe")
 endif()
 
